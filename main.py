@@ -2,10 +2,6 @@ import sys
 import os
 import asyncio
 
-# both src are necessary to account for execution on docker and on project folder
-sys.path.append("../../src")
-sys.path.append("./src")
-
 from lugo4py.loader import EnvVarLoader
 from lugo4py.snapshot import GameSnapshotReader
 from lugo4py.mapper import Mapper

@@ -2,7 +2,7 @@
 
 ## Build pybot docker image:
 ``` 
-docker build -t pybot -f ./Dockerfile ../..
+docker build -t the-dummies-py -f ./Dockerfile ../..
 ```
 
 ## Run example
