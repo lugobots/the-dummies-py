@@ -66,16 +66,15 @@ def getMyExpectedPosition(reader, mapper, number):
         }
     }
 
-    ballRegion = mapper.getRegionFromPoint(reader.getBall().getPosition())
+    ballRegion = mapper.getRegionFromPoint(reader.getBall().position)
     fieldThird = MAPPER_COLS  / 3
     ballCols = ballRegion.getCol()
 
     teamState = "OFFENSIVE"
-    if (ballCols < fieldThird) {
+    if (ballCols < fieldThird) :
         teamState = "DEFENSIVE"
-    } else if (ballCols < fieldThird * 2) {
+    elif (ballCols < fieldThird * 2):
         teamState = "NORMAL"
-    }
 
     expectedRegion = mapper.getRegion(PLAYER_TACTIC_POSITIONS[teamState][number]['Col'], PLAYER_TACTIC_POSITIONS[teamState][number]['Row'])
     return expectedRegion.getCenter()
@@ -101,8 +100,10 @@ class MyBot(Bot):
         maxDistance = 2
         return abs(regionOrigin.getRow() - destOrigin.getRow()) <= maxDistance and abs(regionOrigin.getCol() - destOrigin.getCol()) <= maxDistance
 
-    def onDisputing(self,orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet:
+    def onDisputing(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet:
         try:
+            orderSet = Lugo.OrderSet()
+            
             # the Lugo.GameSnapshot helps us to read the game state
             (reader, me) = self.makeReader(snapshot)
             ballPosition = reader.getBall().position
@@ -110,21 +111,23 @@ class MyBot(Bot):
             ballRegion = self.mapper.getRegionFromPoint(ballPosition)
             myRegion = self.mapper.getRegionFromPoint(me.position)
 
-            # by default, let's stay on our region
+            # by default, let's stay on our region  
             moveDestination = getMyExpectedPosition(reader, self.mapper, self.number)
-            orderSet.setDebugMessage("returning to my position")
+            orderSet.debug_message = "Disputing: Returning to my position"
 
             # but if the ball is near to me, I will try to catch it
             if self.isNear(ballRegion, myRegion):
                 moveDestination = ballPosition
-                orderSet.setDebugMessage("Trying to catch the ball")
+                orderSet.debug_message = "Disputing: Trying to catch the ball"
 
             moveOrder = reader.makeOrderMoveMaxSpeed(me.position, moveDestination)
             
             # we can ALWAYS try to catch the ball
             catchOrder = reader.makeOrderCatch()
 
+            orderSet.turn = snapshot.turn
             orderSet.orders.extend([moveOrder, catchOrder])
+            
             return orderSet
 
         except Exception as e:
@@ -133,6 +136,8 @@ class MyBot(Bot):
 
     def onDefending(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet: 
         try:
+            orderSet = Lugo.OrderSet()
+            
             (reader, me) = self.makeReader(snapshot)
             ballPosition = snapshot.ball.position
             ballRegion = self.mapper.getRegionFromPoint(ballPosition)
@@ -140,16 +145,15 @@ class MyBot(Bot):
 
             # by default, I will stay at my tactic position
             moveDest = getMyExpectedPosition(reader, self.mapper, self.number)
-            orderSet.setDebugMessage("returning to my position")
+            orderSet.debug_message = "Defending: returning to my position"
             
             if self.isNear(ballRegion, myRegion):
-                moveDestination = ballPosition
-                orderSet.setDebugMessage("Trying to catch the ball")
+                moveDest = ballPosition
+                orderSet.debug_message = "Defending: trying to catch the ball"
 
             moveOrder = reader.makeOrderMoveMaxSpeed(me.position, moveDest)
             catchOrder = reader.makeOrderCatch()
 
-            orderSet = Lugo.OrderSet()
             orderSet.turn = snapshot.turn
             orderSet.orders.extend([moveOrder, catchOrder])
             return orderSet
@@ -160,6 +164,8 @@ class MyBot(Bot):
 
     def onHolding(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet: 
         try:
+            orderSet = Lugo.OrderSet()
+            
             (reader, me) = self.makeReader(snapshot)
 
             myGoalCenter = self.mapper.getRegionFromPoint(reader.getOpponentGoal().getCenter())
@@ -171,7 +177,6 @@ class MyBot(Bot):
             else:
                 myOrder = reader.makeOrderMoveMaxSpeed(me.position, reader.getOpponentGoal().getCenter())
 
-            orderSet = Lugo.OrderSet()
             orderSet.turn = snapshot.turn
             orderSet.debug_message = "attack!"
             orderSet.orders.append(myOrder)
@@ -183,14 +188,23 @@ class MyBot(Bot):
 
     def onSupporting(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet: 
         try:
+            orderSet = Lugo.OrderSet()
+
             (reader, me) = self.makeReader(snapshot)
             ballHolderPosition = snapshot.ball.position
-            myOrder = reader.makeOrderMoveMaxSpeed(me.position, ballHolderPosition)
+            ballHolderRegion= self.mapper.getRegionFromPoint(ballHolderPosition)
+            myRegion = self.mapper.getRegionFromPoint(self.initPosition)
 
-            orderSet = Lugo.OrderSet()
+            moveDest = getMyExpectedPosition(reader, self.mapper, self.number)
+            
+            if self.isNear(ballHolderRegion, myRegion):
+                moveDest = ballHolderPosition
+
+            moveOrder = reader.makeOrderMoveMaxSpeed(me.position, moveDest)
+
             orderSet.turn = snapshot.turn
             orderSet.debug_message = "supporting"
-            orderSet.orders.append(myOrder)
+            orderSet.orders.append(moveOrder)
             return orderSet
 
         except Exception as e:
