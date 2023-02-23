@@ -12,67 +12,67 @@ services:
       retries: 100
       start_period: 10s
   player_home_01:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=1
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_02:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=2
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_03:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=3
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_04:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=4
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_05:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=5
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_06:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=6
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_07:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=7
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_08:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=8
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_09:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=9
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_10:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=10
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
   player_home_11:
-    image: pybot:latest
+    image: the-dummies-py:latest
     environment:
       - BOT_NUMBER=11
       - BOT_TEAM=home
