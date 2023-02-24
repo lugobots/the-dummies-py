@@ -13,70 +13,114 @@ services:
       start_period: 10s
   player_home_01:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=1
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_02:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=2
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_03:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=3
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_04:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=4
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_05:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=5
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_06:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=6
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_07:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=7
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_08:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=8
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_09:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=9
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_10:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=10
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_home_11:
     image: the-dummies-py:latest
+    depends_on:
+      game_server:
+        condition: service_healthy
     environment:
       - BOT_NUMBER=11
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
 
   player_away_01:
     image: lugobots/the-dummies-go:latest
@@ -87,6 +131,8 @@ services:
       - BOT_NUMBER=1
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
+
   player_away_02:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -96,6 +142,8 @@ services:
       - BOT_NUMBER=2
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
+
   player_away_03:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -105,6 +153,7 @@ services:
       - BOT_NUMBER=3
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_04:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -114,6 +163,7 @@ services:
       - BOT_NUMBER=4
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_05:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -123,6 +173,7 @@ services:
       - BOT_NUMBER=5
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_06:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -132,6 +183,7 @@ services:
       - BOT_NUMBER=6
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_07:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -141,6 +193,7 @@ services:
       - BOT_NUMBER=7
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_08:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -150,6 +203,7 @@ services:
       - BOT_NUMBER=8
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_09:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -159,6 +213,7 @@ services:
       - BOT_NUMBER=9
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_10:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -168,6 +223,7 @@ services:
       - BOT_NUMBER=10
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
   player_away_11:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -177,4 +233,5 @@ services:
       - BOT_NUMBER=11
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_INSECURE=true
 
