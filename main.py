@@ -28,7 +28,7 @@ PLAYER_POSITIONS = {
 
 if __name__ == "__main__":
     # Set necessary env variables for testing
-    if False:
+    if os.environ['LUGO_LOCAL'] == 'true':
         os.environ['BOT_TEAM'] = 'HOME'
         os.environ['BOT_NUMBER'] = '2'
         os.environ['BOT_GRPC_URL'] = 'localhost:5000'
@@ -51,6 +51,5 @@ if __name__ == "__main__":
     my_bot = MyBot(config.getBotTeamSide(), config.getBotNumber(), initialRegion.getCenter(), map)
 
     asyncio.run(lugo_client.play_as_bot(my_bot))
-    # lugo_client.play_as_bot(my_bot)
 
     print("All good!")

@@ -12,7 +12,7 @@ services:
       retries: 100
       start_period: 10s
   player_home_01:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -22,7 +22,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_02:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -32,7 +32,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_03:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -42,7 +42,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_04:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -52,7 +52,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_05:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -62,7 +62,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_06:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -72,7 +72,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_07:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -82,7 +82,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_08:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -92,7 +92,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_09:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -102,7 +102,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_10:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
@@ -112,7 +112,7 @@ services:
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
   player_home_11:
-    image: the-dummies-py:latest
+    image: ${MY_BOT}
     depends_on:
       game_server:
         condition: service_healthy
