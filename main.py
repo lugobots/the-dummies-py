@@ -42,13 +42,15 @@ if __name__ == "__main__":
     map = Mapper(10, 6, config.getBotTeamSide())
 
     # Our bot strategy defines our bot initial position based on its number
-    initialRegion = map.getRegion(PLAYER_POSITIONS[config.getBotNumber()]['Col'], PLAYER_POSITIONS[config.getBotNumber()]['Row'])
+    initialRegion = map.getRegion(PLAYER_POSITIONS[config.get_bot_number(
+    )]['Col'], PLAYER_POSITIONS[config.get_bot_number()]['Row'])
 
     # Now we can create the bot. We will use a shortcut to create the client from the config, but we could use the
     # client constructor as well
-    lugo_client = NewClientFromConfig(config, initialRegion.getCenter())
+    lugo_client = NewClientFromConfig(config, initialRegion.get_center())
 
-    my_bot = MyBot(config.getBotTeamSide(), config.getBotNumber(), initialRegion.getCenter(), map)
+    my_bot = MyBot(config.get_bot_team_side(),
+                   config.get_bot_number(), initialRegion.get_center(), map)
 
     asyncio.run(lugo_client.play_as_bot(my_bot))
 
