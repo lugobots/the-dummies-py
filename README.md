@@ -20,30 +20,24 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 ## How to use this source code
 
 1. **Checkout the code** or download the most recent tag release
-2. **Install the dependencies and compile the Typescript**: keep the `watcher` service ALWAYS running to keep your code ready to be run.
-When this service is not running, :bangbang: **your code changes will NOT be executed** :bangbang:
-
-    ```sh 
-   docker compose -f watcher-compose.yml -p builder up
-   ```
-3. **Test it out**: Before any change, make the Dummies JS play to ensure you are not working on a broken code.
+2. **Test it out**: Before any change, make the Dummies JS play to ensure you are not working on a broken code.
 
    ```sh 
    docker compose up
    ```
    and open [http://localhost:8080/](http://localhost:8080/) to watch the game.
-4. **Now, make your changes**: (see :question:[How to change the bot](#how-to-edit-the-bot))
-5. Play again to see your changes results: 
+3. **Now, make your changes**: (see :question:[How to change the bot](#how-to-edit-the-bot))
+4. Play again to see your changes results: 
 
    ```sh 
    docker compose up
    ```
-6. **Are you ready to compete? Build your Docker image:** 
+5. **Are you ready to compete? Build your Docker image:** 
     
     ```sh 
    docker build -t my-super-bot .
    ```
-7. :checkered_flag: Before pushing your changes
+6. :checkered_flag: Before pushing your changes
 
     On Linux
    ```sh 
