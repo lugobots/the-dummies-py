@@ -1,16 +1,10 @@
-import sys
-import os
 import asyncio
 
-from lugo4py.loader import EnvVarLoader
-from lugo4py.snapshot import GameSnapshotReader
-from lugo4py.mapper import Mapper
 from lugo4py.client import NewClientFromConfig
+from lugo4py.loader import EnvVarLoader
+from lugo4py.mapper import Mapper
 
 from my_bot import MyBot
-
-from lugo4py.client import LugoClient
-from lugo4py.protos import physics_pb2
 
 PLAYER_POSITIONS = {
     1:  {'Col': 0, 'Row': 0},
@@ -27,22 +21,17 @@ PLAYER_POSITIONS = {
 }
 
 if __name__ == "__main__":
-    # Set necessary env variables for testing
-    if os.environ['LUGO_LOCAL'] == 'true':
-        os.environ['BOT_TEAM'] = 'HOME'
-        os.environ['BOT_NUMBER'] = '2'
-        os.environ['BOT_GRPC_URL'] = 'localhost:5000'
-    
+
     # We must load the env vars following the standard defined by the game specs because all bots will receive the
     # arguments in the same format (env vars)
 
     config = EnvVarLoader()
 
     # The map will help us to see the field in quadrants (called regions) instead of working with coordinates
-    map = Mapper(10, 6, config.getBotTeamSide())
+    map = Mapper(10, 6, config.get_bot_team_side())
 
     # Our bot strategy defines our bot initial position based on its number
-    initialRegion = map.getRegion(PLAYER_POSITIONS[config.get_bot_number(
+    initialRegion = map.get_region(PLAYER_POSITIONS[config.get_bot_number(
     )]['Col'], PLAYER_POSITIONS[config.get_bot_number()]['Row'])
 
     # Now we can create the bot. We will use a shortcut to create the client from the config, but we could use the
