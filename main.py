@@ -1,5 +1,7 @@
 import asyncio
 
+from concurrent.futures import ThreadPoolExecutor
+
 from lugo4py.client import NewClientFromConfig
 from lugo4py.loader import EnvVarLoader
 from lugo4py.mapper import Mapper
@@ -38,9 +40,15 @@ if __name__ == "__main__":
     # client constructor as well
     lugo_client = NewClientFromConfig(config, initialRegion.get_center())
 
+    def on_join():
+        print("Bot is connected to the server")
+
     my_bot = MyBot(config.get_bot_team_side(),
                    config.get_bot_number(), initialRegion.get_center(), map)
 
-    asyncio.run(lugo_client.play_as_bot(my_bot))
+    executor = ThreadPoolExecutor()
+
+    asyncio.run(lugo_client.play_as_bot(executor, my_bot, on_join))
+
 
     print("All good!")
