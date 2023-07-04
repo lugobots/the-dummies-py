@@ -11,6 +11,7 @@ services:
       timeout: 5s
       retries: 100
       start_period: 10s
+
   player_home_01:
     build: .
     command: [ "python", "./main.py" ]
@@ -24,7 +25,146 @@ services:
       - BOT_NUMBER=1
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
-#      - PYTHONPATH=/app
+
+  player_home_02:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=2
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_03:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=3
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_04:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=4
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_05:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=5
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_06:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=6
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_07:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=7
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_08:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=8
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_09:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=9
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_10:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=10
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_11:
+    build: .
+    command: [ "python", "./main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=11
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
 
   player_away_01:
     image: lugobots/the-dummies-go:latest
