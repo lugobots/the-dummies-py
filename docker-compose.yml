@@ -5,6 +5,7 @@ services:
     command: play --dev-mode --timer-mode=wait
     ports:
       - "8080:8080"
+      - "5000:5000"
     healthcheck:
       test: [ "CMD", "grpc-health-probe", "-addr=game_server:5000" ]
       interval: 2s
@@ -13,11 +14,12 @@ services:
       start_period: 10s
 
   player_home_01:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -27,11 +29,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_02:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -41,11 +44,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_03:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -55,11 +59,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_04:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -69,11 +74,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_05:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -83,11 +89,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_06:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -97,11 +104,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_07:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -111,11 +119,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_08:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -125,11 +134,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_09:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -139,11 +149,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_10:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -153,11 +164,12 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_11:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy

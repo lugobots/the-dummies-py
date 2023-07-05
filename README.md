@@ -21,6 +21,7 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 
 1. **Checkout the code** or download the most recent tag release
 2. Initialize your venv `virtualenv venv --python=python3.9` 
+3. Activate your virtual environment `source venv/bin/activate`
 3. Install the requirements `pip install -r requirements.txt`
 2. **Test it out**: Before any change, make the Dummies Py play to ensure you are not working on a broken code.
 
@@ -106,7 +107,7 @@ There will be 5 important methods that you must edit to change the bot behaviour
 
 If you want to run the Python code in your machine instead of inside the container, you definitely can do this.
 
-The command to start locally is `LUGO_LOCAL=true npm run start`. However, when you run the Docker compose 
+The command to start locally is `BOT_TEAM=home BOT_NUMBER=1 python3.9 main.py`. However, when you run the Docker compose 
 file, all players from both teams will start. Then, if you run another bot directly from your machine, it will not
 be allowed to join the game.
 
@@ -122,6 +123,6 @@ The game server will wait all 11 players from both teams to connect before start
 
 ### Option 2 - starting the game server first
 
-You can start _only_ the game server with the command `game_server`. The game will wait for the players. Then, you
-start your local bot (`LUGO_LOCAL=true npm run start`), and finally start the rest of the players with the
+You can start _only_ the game server with the command `docker compose up -d game_server`. The game will wait for the players. Then, you
+start your local bot (`BOT_TEAM=home BOT_NUMBER=1 python3.9 main.py`), and finally start the rest of the players with the
 command `docker compose up`
