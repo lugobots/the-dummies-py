@@ -10,7 +10,7 @@ Use this bot as a starting point to a new one.
 
 * Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 * Docker Compose ([https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/))
-* Python 3.11.1 or greater
+* Python 3.8.10 or greater
 
 ## Before starting
 
@@ -20,7 +20,10 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 ## How to use this source code
 
 1. **Checkout the code** or download the most recent tag release
-2. **Test it out**: Before any change, make the Dummies JS play to ensure you are not working on a broken code.
+2. Initialize your venv `virtualenv venv --python=python3.9` 
+3. Activate your virtual environment `source venv/bin/activate`
+3. Install the requirements `pip install -r requirements.txt`
+2. **Test it out**: Before any change, make the Dummies Py play to ensure you are not working on a broken code.
 
    ```sh 
    docker compose up
@@ -41,46 +44,70 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 
     On Linux
    ```sh 
-   MY_BOT=my-super-bot 
-   docker compose --file docker-compose.yml -p tester up
+   export MY_BOT=my-super-bot 
+   docker compose -e MY_BOT=my-super-bot  --file docker-compose-test.yml -p tester up
    ```
 
     On Windows
    ```sh 
    $Env:MY_BOT = "my-super-bot"
-   docker compose --file docker-compose.yml -p tester up
+   docker compose --file docker-compose-test.yml -p tester up
    ```
 
 ## How to edit the bot   
 
-### Main file [src/main.py](src/main.py)
+### Main file [main.py](main.py)
 
 You probably will not change this file. It only initializes the bot.
 
-### My bot [src/my_bot.py](./src/my_bot.py)
+### Settings file [settings.py](settings.py)
+
+Settings file only stores configurations that will affect the player behaviour, e.g. positions, tactic, etc.
+
+### My bot [my_bot.py](my_bot.py)
 
 :eyes: This is the most important file!
 
 There will be 5 important methods that you must edit to change the bot behaviour.
 
 ```python
+    def on_disputing (self, orderSet: lugo4py.OrderSet, snapshot: GameSnapshot) -> OrderSet:
+        # on_disputing is called when no one has the ball possession
+        pass
 
-    def onDisputing (self, orderSet: lugo4py.OrderSet, snapshot: GameSnapshot)
-    
-    def onDefending (self, orderSet: OrderSet, snapshot: GameSnapshot)
+    @abstractmethod
+    def on_defending (self, orderSet: OrderSet, snapshot: GameSnapshot) -> OrderSet:
+        # OnDefending is called when an opponent player has the ball possession
+        pass
 
-    def onHolding (self, orderSet: OrderSet, snapshot: GameSnapshot) 
-    
-    def onSupporting (self, orderSet: OrderSet, snapshot: GameSnapshot)
+    @abstractmethod
+    def on_holding (self, orderSet: OrderSet, snapshot: GameSnapshot) -> OrderSet:
+        # OnHolding is called when this bot has the ball possession
+        pass
 
-    def asGoalkeeper (self, orderSet: OrderSet, snapshot: GameSnapshot, state: PLAYER_STATE)
+    @abstractmethod
+    def on_supporting (self, orderSet: OrderSet, snapshot: GameSnapshot) -> OrderSet:
+        # OnSupporting is called when a teammate player has the ball possession
+        pass
+
+    @abstractmethod
+    def as_goalkeeper (self, orderSet: OrderSet, snapshot: GameSnapshot, state: PLAYER_STATE) -> OrderSet:
+        # AsGoalkeeper is only called when this bot is the goalkeeper (number 1). This method is called on every turn,
+        # and the player state is passed at the last parameter.
+        pass
+
+    @abstractmethod
+    def getting_ready (self, snapshot: GameSnapshot):
+        # getting_ready will be called before the game starts and after a goal event. You will only need to implement
+        # this method in very rare cases.
+        pass
 ```
 
 ## Running directly in your machine (:ninja: advanced) 
 
 If you want to run the Python code in your machine instead of inside the container, you definitely can do this.
 
-The command to start locally is `LUGO_LOCAL=true npm run start`. However, when you run the Docker compose 
+The command to start locally is `BOT_TEAM=home BOT_NUMBER=1 python3.9 main.py`. However, when you run the Docker compose 
 file, all players from both teams will start. Then, if you run another bot directly from your machine, it will not
 be allowed to join the game.
 
@@ -96,6 +123,6 @@ The game server will wait all 11 players from both teams to connect before start
 
 ### Option 2 - starting the game server first
 
-You can start _only_ the game server with the command `game_server`. The game will wait for the players. Then, you
-start your local bot (`LUGO_LOCAL=true npm run start`), and finally start the rest of the players with the
+You can start _only_ the game server with the command `docker compose up -d game_server`. The game will wait for the players. Then, you
+start your local bot (`BOT_TEAM=home BOT_NUMBER=1 python3.9 main.py`), and finally start the rest of the players with the
 command `docker compose up`
