@@ -1,256 +1,168 @@
-from lugo4py.snapshot import GameSnapshotReader
-from lugo4py.mapper import Mapper, Region
-from lugo4py.interface import Bot, PLAYER_STATE
-# from lugo4py.client import NewClientFromConfig
-
-from lugo4py.protos import server_pb2 as Lugo
-from lugo4py.protos.physics_pb2 import Point, Vector
-
 import traceback
+from abc import ABC
+
+from lugo4py import lugo
+from lugo4py.interface import Bot, PLAYER_STATE
+
+from lugo4py.mapper import Mapper, Region
+from lugo4py.protos.physics_pb2 import Point
+from lugo4py.snapshot import GameSnapshotReader
+
+from settings import get_my_expected_position
 
 
-def getMyExpectedPosition(reader: GameSnapshotReader, mapper: Mapper, number: int):
-    MAPPER_COLS = 10
-    MAPPER_ROWS = 6
-    # here we define the initial positions
-    PLAYER_INITIAL_POSITIONS = {
-        1: {'Col': 0, 'Row': 0},
-        2: {'Col': 1, 'Row': 1},
-        3: {'Col': 2, 'Row': 2},
-        4: {'Col': 2, 'Row': 3},
-        5: {'Col': 1, 'Row': 4},
-        6: {'Col': 3, 'Row': 1},
-        7: {'Col': 3, 'Row': 2},
-        8: {'Col': 3, 'Row': 3},
-        9: {'Col': 3, 'Row': 4},
-        10: {'Col': 4, 'Row': 3},
-        11: {'Col': 4, 'Row': 2},
-    }
+class MyBot(Bot, ABC):
 
-    PLAYER_TACTIC_POSITIONS = {
-        'DEFENSIVE': {
-            2:  {'Col': 1, 'Row': 1},
-            3:  {'Col': 2, 'Row': 2},
-            4:  {'Col': 2, 'Row': 3},
-            5:  {'Col': 1, 'Row': 4},
-            6:  {'Col': 3, 'Row': 1},
-            7:  {'Col': 3, 'Row': 2},
-            8:  {'Col': 3, 'Row': 3},
-            9:  {'Col': 3, 'Row': 4},
-            10: {'Col': 4, 'Row': 3},
-            11: {'Col': 4, 'Row': 2},
-        },
-        'NORMAL': {
-            2:  {'Col': 2, 'Row': 1},
-            3:  {'Col': 4, 'Row': 2},
-            4:  {'Col': 4, 'Row': 3},
-            5:  {'Col': 2, 'Row': 4},
-            6:  {'Col': 6, 'Row': 1},
-            7:  {'Col': 8, 'Row': 2},
-            8:  {'Col': 8, 'Row': 3},
-            9:  {'Col': 6, 'Row': 4},
-            10: {'Col': 7, 'Row': 4},
-            11: {'Col': 7, 'Row': 1},
-        },
-        'OFFENSIVE': {
-            2:  {'Col': 3, 'Row': 1},
-            3:  {'Col': 5, 'Row': 2},
-            4:  {'Col': 5, 'Row': 3},
-            5:  {'Col': 3, 'Row': 4},
-            6:  {'Col': 7, 'Row': 1},
-            7:  {'Col': 8, 'Row': 2},
-            8:  {'Col': 8, 'Row': 3},
-            9:  {'Col': 7, 'Row': 4},
-            10: {'Col': 9, 'Row': 4},
-            11: {'Col': 9, 'Row': 1},
-        }
-    }
-
-    ball_region = mapper.get_region_from_point(reader.get_ball().position)
-    field_third = MAPPER_COLS / 3
-    ball_cols = ball_region.get_col()
-
-    teamState = "OFFENSIVE"
-    if (ball_cols < field_third):
-        teamState = "DEFENSIVE"
-    elif (ball_cols < field_third * 2):
-        teamState = "NORMAL"
-
-    expected_region = mapper.getRegion(
-        PLAYER_TACTIC_POSITIONS[teamState][number]['Col'], PLAYER_TACTIC_POSITIONS[teamState][number]['Row'])
-    return expected_region.get_center()
-
-
-class MyBot(Bot):
-
-    def __init__(self, side: Lugo.Team.Side, number: int, initPosition: Point, mapper: Mapper):
+    def __init__(self, side: lugo.TeamSide, number: int, init_position: Point, mapper: Mapper):
         self.number = number
         self.side = side
         self.mapper = mapper
-        self.initPosition = initPosition
-        mapper.get_region_from_point(initPosition)
+        self.initPosition = init_position
+        mapper.get_region_from_point(init_position)
 
-    def make_reader(self, snapshot: Lugo.GameSnapshot):
+    def make_reader(self, snapshot: lugo.GameSnapshot):
         reader = GameSnapshotReader(snapshot, self.side)
         me = reader.get_player(self.side, self.number)
         if me is None:
             raise AttributeError("did not find myself in the game")
 
-        return (reader, me)
+        return reader, me
 
-    def is_near(self, regionOrigin: Region, destOrigin: Region) -> bool:
-        maxDistance = 2
-        return abs(regionOrigin.get_row() - destOrigin.get_row()) <= maxDistance and abs(regionOrigin.get_col() - destOrigin.get_col()) <= maxDistance
+    def is_near(self, region_origin: Region, dest_origin: Region) -> bool:
+        max_distance = 2
+        return abs(region_origin.get_row() - dest_origin.get_row()) <= max_distance and abs(
+            region_origin.get_col() - dest_origin.get_col()) <= max_distance
 
-    def on_disputing(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet:
+    def on_disputing(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
         try:
-            orderSet = Lugo.OrderSet()
 
             # the Lugo.GameSnapshot helps us to read the game state
             (reader, me) = self.make_reader(snapshot)
             ball_position = reader.get_ball().position
 
             ball_region = self.mapper.get_region_from_point(ball_position)
-            myRegion = self.mapper.get_region_from_point(me.position)
+            my_region = self.mapper.get_region_from_point(me.position)
 
             # by default, let's stay on our region
-            move_destination = getMyExpectedPosition(
+            move_destination = get_my_expected_position(
                 reader, self.mapper, self.number)
-            orderSet.debug_message = "Disputing: Returning to my position"
+            order_set.debug_message = "Disputing: Returning to my position"
 
             # but if the ball is near to me, I will try to catch it
-            if self.is_near(ball_region, myRegion):
+            if self.is_near(ball_region, my_region):
                 move_destination = ball_position
-                orderSet.debug_message = "Disputing: Trying to catch the ball"
+                order_set.debug_message = "Disputing: Trying to catch the ball"
 
-            moveOrder = reader.make_order_kick_max_speed(
+            move_order = reader.make_order_move_max_speed(
                 me.position, move_destination)
 
             # we can ALWAYS try to catch the ball
-            catchOrder = reader.make_order_catch()
+            catch_order = reader.make_order_catch()
 
-            orderSet.turn = snapshot.turn
-            orderSet.orders.extend([moveOrder, catchOrder])
+            order_set.turn = snapshot.turn
+            order_set.orders.extend([move_order, catch_order])
 
-            return orderSet
+            return order_set
 
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def on_defending(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet:
+    def on_defending(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
         try:
-            orderSet = Lugo.OrderSet()
-
             (reader, me) = self.make_reader(snapshot)
             ball_position = snapshot.ball.position
             ball_region = self.mapper.get_region_from_point(ball_position)
-            myRegion = self.mapper.get_region_from_point(self.initPosition)
+            my_region = self.mapper.get_region_from_point(self.initPosition)
 
             # by default, I will stay at my tactic position
-            moveDest = getMyExpectedPosition(reader, self.mapper, self.number)
-            orderSet.debug_message = "Defending: returning to my position"
+            move_dest = get_my_expected_position(
+                reader, self.mapper, self.number)
+            order_set.debug_message = "Defending: returning to my position"
 
-            if self.is_near(ball_region, myRegion):
-                moveDest = ball_position
-                orderSet.debug_message = "Defending: trying to catch the ball"
+            if self.is_near(ball_region, my_region):
+                move_dest = ball_position
+                order_set.debug_message = "Defending: trying to catch the ball"
 
-            moveOrder = reader.make_order_kick_max_speed(me.position, moveDest)
-            catchOrder = reader.make_order_catch()
+            move_order = reader.make_order_move_max_speed(
+                me.position, move_dest)
+            catch_order = reader.make_order_catch()
 
-            orderSet.turn = snapshot.turn
-            orderSet.orders.extend([moveOrder, catchOrder])
-            return orderSet
+            order_set.turn = snapshot.turn
+            order_set.orders.extend([move_order, catch_order])
+            return order_set
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def on_holding(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet:
+    def on_holding(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
         try:
-            orderSet = Lugo.OrderSet()
-
             (reader, me) = self.make_reader(snapshot)
 
-            myGoalCenter = self.mapper.get_region_from_point(
+            my_goal_center = self.mapper.get_region_from_point(
                 reader.get_opponent_goal().get_center())
-            currentRegion = self.mapper.get_region_from_point(me.position)
+            current_region = self.mapper.get_region_from_point(me.position)
 
-            myOrder = None
-            if self.is_near(currentRegion, myGoalCenter):
-                myOrder = reader.makeOrderKickMaxSpeed(
+            if self.is_near(current_region, my_goal_center):
+                my_order = reader.make_order_kick_max_speed(
                     snapshot.ball, reader.get_opponent_goal().get_center())
             else:
-                myOrder = reader.make_order_kick_max_speed(
+                my_order = reader.make_order_move_max_speed(
                     me.position, reader.get_opponent_goal().get_center())
 
-            orderSet.turn = snapshot.turn
-            orderSet.debug_message = "attack!"
-            orderSet.orders.append(myOrder)
-            return orderSet
+            order_set.turn = snapshot.turn
+            order_set.debug_message = "attack!"
+            order_set.orders.append(my_order)
+            return order_set
 
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def on_supporting(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot) -> Lugo.OrderSet:
+    def on_supporting(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
         try:
-            orderSet = Lugo.OrderSet()
-
             (reader, me) = self.make_reader(snapshot)
-            ballHolderPosition = snapshot.ball.position
-            ballHolderRegion = self.mapper.get_region_from_point(
-                ballHolderPosition)
-            myRegion = self.mapper.get_region_from_point(self.initPosition)
+            ball_holder_position = snapshot.ball.position
+            ball_holder_region = self.mapper.get_region_from_point(
+                ball_holder_position)
+            my_region = self.mapper.get_region_from_point(self.initPosition)
 
-            moveDest = getMyExpectedPosition(reader, self.mapper, self.number)
+            move_dest = get_my_expected_position(
+                reader, self.mapper, self.number)
 
-            if self.is_near(ballHolderRegion, myRegion):
-                moveDest = ballHolderPosition
+            if self.is_near(ball_holder_region, my_region):
+                move_dest = ball_holder_position
 
-            moveOrder = reader.make_order_kick_max_speed(me.position, moveDest)
+            move_order = reader.make_order_move_max_speed(
+                me.position, move_dest)
 
-            orderSet.turn = snapshot.turn
-            orderSet.debug_message = "supporting"
-            orderSet.orders.append(moveOrder)
-            return orderSet
+            order_set.turn = snapshot.turn
+            order_set.debug_message = "supporting"
+            order_set.orders.append(move_order)
+            return order_set
 
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def as_goalkeeper(self, orderSet: Lugo.OrderSet, snapshot: Lugo.GameSnapshot, state) -> Lugo.OrderSet:
+    def as_goalkeeper(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot, state: PLAYER_STATE) -> lugo.OrderSet:
         try:
             (reader, me) = self.make_reader(snapshot)
             position = snapshot.ball.position
-            if (state != PLAYER_STATE.DISPUTING_THE_BALL):
-                position = reader.getMyGoal().get_center()
 
-            myOrder = reader.make_order_kick_max_speed(me.position, position)
+            if state != PLAYER_STATE.DISPUTING_THE_BALL:
+                position = reader.get_my_goal().get_center()
 
-            orderSet = Lugo.OrderSet()
-            orderSet.turn = snapshot.turn
-            orderSet.debug_message = "defending the goal"
-            orderSet.orders.extend([myOrder, reader.make_order_catch()])
-            return orderSet
+            my_order = reader.make_order_move_max_speed(me.position, position)
+
+            order_set.turn = snapshot.turn
+            order_set.debug_message = "defending the goal"
+            order_set.orders.extend([my_order, reader.make_order_catch()])
+            return order_set
 
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    async def getting_ready(self, snapshot: Lugo.GameSnapshot):
+    def getting_ready(self, snapshot: lugo.GameSnapshot):
         print('getting ready')
-
-
-PLAYER_POSITIONS = {
-    1:  {'Col': 0, 'Row': 0},
-    2:  {'Col': 1, 'Row': 1},
-    3:  {'Col': 2, 'Row': 2},
-    4:  {'Col': 2, 'Row': 3},
-    5:  {'Col': 1, 'Row': 4},
-    6:  {'Col': 3, 'Row': 1},
-    7:  {'Col': 3, 'Row': 2},
-    8:  {'Col': 3, 'Row': 3},
-    9:  {'Col': 3, 'Row': 4},
-    10: {'Col': 4, 'Row': 3},
-    11: {'Col': 4, 'Row': 2},
-}

@@ -5,18 +5,21 @@ services:
     command: play --dev-mode --timer-mode=wait
     ports:
       - "8080:8080"
+      - "5000:5000"
     healthcheck:
       test: [ "CMD", "grpc-health-probe", "-addr=game_server:5000" ]
       interval: 2s
       timeout: 5s
       retries: 100
       start_period: 10s
+
   player_home_01:
-    build: .
-    command: [ "python", "./main.py" ]
+    image: python:3.9
+    command: ["python", "main.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
       game_server:
         condition: service_healthy
@@ -24,7 +27,156 @@ services:
       - BOT_NUMBER=1
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
-#      - PYTHONPATH=/app
+
+  player_home_02:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=2
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_03:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=3
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_04:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=4
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_05:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=5
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_06:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=6
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_07:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=7
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_08:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=8
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_09:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=9
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_10:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=10
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
+
+  player_home_11:
+    image: python:3.9
+    command: ["python", "main.py" ]
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+    depends_on:
+      game_server:
+        condition: service_healthy
+    environment:
+      - BOT_NUMBER=11
+      - BOT_TEAM=home
+      - BOT_GRPC_URL=game_server:5000
 
   player_away_01:
     image: lugobots/the-dummies-go:latest
