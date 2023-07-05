@@ -44,14 +44,14 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 
     On Linux
    ```sh 
-   MY_BOT=my-super-bot 
-   docker compose --file docker-compose.yml -p tester up
+   export MY_BOT=my-super-bot 
+   docker compose -e MY_BOT=my-super-bot  --file docker-compose-test.yml -p tester up
    ```
 
     On Windows
    ```sh 
    $Env:MY_BOT = "my-super-bot"
-   docker compose --file docker-compose.yml -p tester up
+   docker compose --file docker-compose-test.yml -p tester up
    ```
 
 ## How to edit the bot   
