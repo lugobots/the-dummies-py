@@ -45,7 +45,7 @@ If not, before continuing, please visit [the project website](https://lugobots.d
     On Linux
    ```sh 
    export MY_BOT=my-super-bot 
-   docker compose -e MY_BOT=my-super-bot  --file docker-compose-test.yml -p tester up
+   docker compose --file docker-compose-test.yml -p tester up
    ```
 
     On Windows
