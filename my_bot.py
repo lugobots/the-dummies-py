@@ -1,44 +1,41 @@
 import traceback
 from abc import ABC
 
-from lugo4py import lugo
-from lugo4py.interface import Bot, PLAYER_STATE
-
-from lugo4py.mapper import Mapper, Region
+import lugo4py
+import lugo4py.mapper as mapper
 from lugo4py.protos.physics_pb2 import Point
-from lugo4py.snapshot import GameSnapshotReader
-
 from settings import get_my_expected_position
 
 
-class MyBot(Bot, ABC):
+class MyBot(lugo4py.Bot, ABC):
 
-    def __init__(self, side: lugo.TeamSide, number: int, init_position: Point, mapper: Mapper):
+    def __init__(self, side: lugo4py.TeamSide, number: int, init_position: Point, my_mapper: mapper.Mapper):
         self.number = number
         self.side = side
-        self.mapper = mapper
+        self.mapper = my_mapper
         self.initPosition = init_position
-        mapper.get_region_from_point(init_position)
+        my_mapper.get_region_from_point(init_position)
 
-    def make_reader(self, snapshot: lugo.GameSnapshot):
-        reader = GameSnapshotReader(snapshot, self.side)
+    def make_reader(self, snapshot: lugo4py.GameSnapshot):
+        reader = lugo4py.GameSnapshotReader(snapshot, self.side)
         me = reader.get_player(self.side, self.number)
         if me is None:
             raise AttributeError("did not find myself in the game")
 
         return reader, me
 
-    def is_near(self, region_origin: Region, dest_origin: Region) -> bool:
+    def is_near(self, region_origin: mapper.Region, dest_origin: mapper.Region) -> bool:
         max_distance = 2
         return abs(region_origin.get_row() - dest_origin.get_row()) <= max_distance and abs(
             region_origin.get_col() - dest_origin.get_col()) <= max_distance
 
-    def on_disputing(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
+    def on_disputing(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
-
             # the Lugo.GameSnapshot helps us to read the game state
             (reader, me) = self.make_reader(snapshot)
             ball_position = reader.get_ball().position
+
+            reader.get_opponent_goal()
 
             ball_region = self.mapper.get_region_from_point(ball_position)
             my_region = self.mapper.get_region_from_point(me.position)
@@ -68,7 +65,7 @@ class MyBot(Bot, ABC):
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def on_defending(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
+    def on_defending(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
             (reader, me) = self.make_reader(snapshot)
             ball_position = snapshot.ball.position
@@ -95,7 +92,7 @@ class MyBot(Bot, ABC):
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def on_holding(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
+    def on_holding(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
             (reader, me) = self.make_reader(snapshot)
 
@@ -119,7 +116,7 @@ class MyBot(Bot, ABC):
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def on_supporting(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot) -> lugo.OrderSet:
+    def on_supporting(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
             (reader, me) = self.make_reader(snapshot)
             ball_holder_position = snapshot.ball.position
@@ -145,12 +142,12 @@ class MyBot(Bot, ABC):
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def as_goalkeeper(self, order_set: lugo.OrderSet, snapshot: lugo.GameSnapshot, state: PLAYER_STATE) -> lugo.OrderSet:
+    def as_goalkeeper(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot, state: lugo4py.PLAYER_STATE) -> lugo4py.OrderSet:
         try:
             (reader, me) = self.make_reader(snapshot)
             position = snapshot.ball.position
 
-            if state != PLAYER_STATE.DISPUTING_THE_BALL:
+            if state != lugo4py.PLAYER_STATE.DISPUTING_THE_BALL:
                 position = reader.get_my_goal().get_center()
 
             my_order = reader.make_order_move_max_speed(me.position, position)
@@ -164,5 +161,5 @@ class MyBot(Bot, ABC):
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
 
-    def getting_ready(self, snapshot: lugo.GameSnapshot):
+    def getting_ready(self, snapshot: lugo4py.GameSnapshot):
         print('getting ready')

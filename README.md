@@ -10,7 +10,7 @@ Use this bot as a starting point to a new one.
 
 * Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 * Docker Compose ([https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/))
-* Python 3.8.10 or greater
+* Python 3.9 (if you **really** want to use another version, you will need to update the [docker-compose.yml](./docker-compose.yml))
 
 ## Before starting
 

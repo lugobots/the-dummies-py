@@ -1,12 +1,10 @@
-from lugo4py.snapshot import GameSnapshotReader
-from lugo4py.mapper import Mapper, Region
-
+import lugo4py
+import lugo4py.mapper as mapper
 
 MAPPER_COLS = 10
 MAPPER_ROWS = 6
 
-
-def get_my_expected_position(reader: GameSnapshotReader, mapper: Mapper, number: int):
+def get_my_expected_position(reader: lugo4py.GameSnapshotReader, my_mapper: mapper.Mapper, number: int):
     mapper_cols = MAPPER_COLS
 
     player_tactic_positions = {
@@ -48,7 +46,7 @@ def get_my_expected_position(reader: GameSnapshotReader, mapper: Mapper, number:
         }
     }
 
-    ball_region = mapper.get_region_from_point(reader.get_ball().position)
+    ball_region = my_mapper.get_region_from_point(reader.get_ball().position)
     field_third = mapper_cols / 3
     ball_cols = ball_region.get_col()
 
@@ -58,8 +56,8 @@ def get_my_expected_position(reader: GameSnapshotReader, mapper: Mapper, number:
     elif ball_cols < field_third * 2:
         team_state = "NORMAL"
 
-    expected_region = mapper.get_region(player_tactic_positions[team_state][number]['Col'],
-                                        player_tactic_positions[team_state][number]['Row'])
+    expected_region = my_mapper.get_region(player_tactic_positions[team_state][number]['Col'],
+                                           player_tactic_positions[team_state][number]['Row'])
     return expected_region.get_center()
 
 
