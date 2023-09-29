@@ -10,7 +10,6 @@ Use this bot as a starting point to a new one.
 
 * Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 * Docker Compose ([https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/))
-* Python 3.9 (if you **really** want to use another version, you will need to update the [docker-compose.yml](./docker-compose.yml))
 
 ## Before starting
 
@@ -20,9 +19,6 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 ## How to use this source code
 
 1. **Checkout the code** or download the most recent tag release
-2. Initialize your venv `virtualenv venv --python=python3.9` 
-3. Activate your virtual environment `source venv/bin/activate`
-3. Install the requirements `pip install -r requirements.txt`
 2. **Test it out**: Before any change, make the Dummies Py play to ensure you are not working on a broken code.
 
    ```sh 
