@@ -3,31 +3,11 @@ from abc import ABC
 
 import lugo4py
 import lugo4py.mapper as mapper
-from lugo4py.protos.physics_pb2 import Point
 from settings import get_my_expected_position
 
 
 class MyBot(lugo4py.Bot, ABC):
 
-    def __init__(self, side: lugo4py.TeamSide, number: int, init_position: Point, my_mapper: mapper.Mapper):
-        self.number = number
-        self.side = side
-        self.mapper = my_mapper
-        self.initPosition = init_position
-        my_mapper.get_region_from_point(init_position)
-
-    def make_reader(self, snapshot: lugo4py.GameSnapshot):
-        reader = lugo4py.GameSnapshotReader(snapshot, self.side)
-        me = reader.get_player(self.side, self.number)
-        if me is None:
-            raise AttributeError("did not find myself in the game")
-
-        return reader, me
-
-    def is_near(self, region_origin: mapper.Region, dest_origin: mapper.Region) -> bool:
-        max_distance = 2
-        return abs(region_origin.get_row() - dest_origin.get_row()) <= max_distance and abs(
-            region_origin.get_col() - dest_origin.get_col()) <= max_distance
 
     def on_disputing(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
@@ -35,30 +15,12 @@ class MyBot(lugo4py.Bot, ABC):
             (reader, me) = self.make_reader(snapshot)
             ball_position = reader.get_ball().position
 
-            reader.get_opponent_goal()
-
-            ball_region = self.mapper.get_region_from_point(ball_position)
-            my_region = self.mapper.get_region_from_point(me.position)
-
-            # by default, let's stay on our region
-            move_destination = get_my_expected_position(
-                reader, self.mapper, self.number)
-            order_set.debug_message = "Disputing: Returning to my position"
-
-            # but if the ball is near to me, I will try to catch it
-            if self.is_near(ball_region, my_region):
-                move_destination = ball_position
-                order_set.debug_message = "Disputing: Trying to catch the ball"
-
-            move_order = reader.make_order_move_max_speed(
-                me.position, move_destination)
-
+            order_set.debug_message = "Disputing: trying to get the ball"
+            move_order = reader.make_order_move_max_speed(me.position, ball_position)
             # we can ALWAYS try to catch the ball
             catch_order = reader.make_order_catch()
 
-            order_set.turn = snapshot.turn
             order_set.orders.extend([move_order, catch_order])
-
             return order_set
 
         except Exception as e:
@@ -67,25 +29,15 @@ class MyBot(lugo4py.Bot, ABC):
 
     def on_defending(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
+            # the Lugo.GameSnapshot helps us to read the game state
             (reader, me) = self.make_reader(snapshot)
-            ball_position = snapshot.ball.position
-            ball_region = self.mapper.get_region_from_point(ball_position)
-            my_region = self.mapper.get_region_from_point(self.initPosition)
+            ball_position = reader.get_ball().position
 
-            # by default, I will stay at my tactic position
-            move_dest = get_my_expected_position(
-                reader, self.mapper, self.number)
-            order_set.debug_message = "Defending: returning to my position"
-
-            if self.is_near(ball_region, my_region):
-                move_dest = ball_position
-                order_set.debug_message = "Defending: trying to catch the ball"
-
-            move_order = reader.make_order_move_max_speed(
-                me.position, move_dest)
+            move_order = reader.make_order_move_max_speed(me.position, ball_position)
+            # we can ALWAYS try to catch the ball
             catch_order = reader.make_order_catch()
 
-            order_set.turn = snapshot.turn
+            order_set.debug_message = "Disputing: trying to get the ball"
             order_set.orders.extend([move_order, catch_order])
             return order_set
         except Exception as e:
@@ -96,19 +48,17 @@ class MyBot(lugo4py.Bot, ABC):
         try:
             (reader, me) = self.make_reader(snapshot)
 
-            my_goal_center = self.mapper.get_region_from_point(
-                reader.get_opponent_goal().get_center())
-            current_region = self.mapper.get_region_from_point(me.position)
+            opponent_goal_point = reader.get_opponent_goal().get_center()
+            goal_region = self.mapper.get_region_from_point(opponent_goal_point)
+            my_region = self.mapper.get_region_from_point(me.position)
 
-            if self.is_near(current_region, my_goal_center):
-                my_order = reader.make_order_kick_max_speed(
-                    snapshot.ball, reader.get_opponent_goal().get_center())
+            if self.is_near(my_region, goal_region):
+                my_order = reader.make_order_kick_max_speed(snapshot.ball, opponent_goal_point)
             else:
-                my_order = reader.make_order_move_max_speed(
-                    me.position, reader.get_opponent_goal().get_center())
+                my_order = reader.make_order_move_max_speed(me.position, opponent_goal_point)
 
-            order_set.turn = snapshot.turn
             order_set.debug_message = "attack!"
+
             order_set.orders.append(my_order)
             return order_set
 
@@ -119,22 +69,20 @@ class MyBot(lugo4py.Bot, ABC):
     def on_supporting(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
             (reader, me) = self.make_reader(snapshot)
-            ball_holder_position = snapshot.ball.position
-            ball_holder_region = self.mapper.get_region_from_point(
-                ball_holder_position)
-            my_region = self.mapper.get_region_from_point(self.initPosition)
 
-            move_dest = get_my_expected_position(
-                reader, self.mapper, self.number)
+            ball_holder_position = snapshot.ball.position
+
+            ball_holder_region = self.mapper.get_region_from_point(ball_holder_position)
+            my_region = self.mapper.get_region_from_point(me.position)
 
             if self.is_near(ball_holder_region, my_region):
                 move_dest = ball_holder_position
+                order_set.debug_message = "supporting"
+            else :
+                move_dest = get_my_expected_position(reader, self.mapper, self.number)
+                order_set.debug_message = "keeping position"
 
-            move_order = reader.make_order_move_max_speed(
-                me.position, move_dest)
-
-            order_set.turn = snapshot.turn
-            order_set.debug_message = "supporting"
+            move_order = reader.make_order_move_max_speed(me.position, move_dest)
             order_set.orders.append(move_order)
             return order_set
 
@@ -163,3 +111,9 @@ class MyBot(lugo4py.Bot, ABC):
 
     def getting_ready(self, snapshot: lugo4py.GameSnapshot):
         print('getting ready')
+
+
+    def is_near(self, region_origin: mapper.Region, dest_origin: mapper.Region) -> bool:
+        max_distance = 2
+        return abs(region_origin.get_row() - dest_origin.get_row()) <= max_distance and abs(
+            region_origin.get_col() - dest_origin.get_col()) <= max_distance

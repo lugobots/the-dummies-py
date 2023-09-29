@@ -61,7 +61,7 @@ def get_my_expected_position(reader: lugo4py.GameSnapshotReader, my_mapper: mapp
     return expected_region.get_center()
 
 
-PLAYER_POSITIONS = {
+PLAYER_INITIAL_POSITIONS = {
     1: {'Col': 0, 'Row': 0},
     2: {'Col': 1, 'Row': 1},
     3: {'Col': 2, 'Row': 2},
