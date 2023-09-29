@@ -7,19 +7,19 @@ from settings import get_my_expected_position
 
 
 class MyBot(lugo4py.Bot, ABC):
-
-
     def on_disputing(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
-            # the Lugo.GameSnapshot helps us to read the game state
+            # the reader helps us to read the game state
             (reader, me) = self.make_reader(snapshot)
             ball_position = reader.get_ball().position
 
-            order_set.debug_message = "Disputing: trying to get the ball"
+            # try the auto complet for reader.make_order_... there are other options
             move_order = reader.make_order_move_max_speed(me.position, ball_position)
             # we can ALWAYS try to catch the ball
             catch_order = reader.make_order_catch()
 
+            # the debug_message helps us to see that was the order sent by this bot
+            order_set.debug_message = "Disputing: trying to get the ball"
             order_set.orders.extend([move_order, catch_order])
             return order_set
 
@@ -29,7 +29,6 @@ class MyBot(lugo4py.Bot, ABC):
 
     def on_defending(self, order_set: lugo4py.OrderSet, snapshot: lugo4py.GameSnapshot) -> lugo4py.OrderSet:
         try:
-            # the Lugo.GameSnapshot helps us to read the game state
             (reader, me) = self.make_reader(snapshot)
             ball_position = reader.get_ball().position
 
@@ -48,6 +47,8 @@ class MyBot(lugo4py.Bot, ABC):
         try:
             (reader, me) = self.make_reader(snapshot)
 
+            # "point" is an X and Y raw coordinate refereciend by the field, so the side of the field matters!
+            # "region" is a mapped area of the field create by your mapper! so the side of the field DO NOT matter!
             opponent_goal_point = reader.get_opponent_goal().get_center()
             goal_region = self.mapper.get_region_from_point(opponent_goal_point)
             my_region = self.mapper.get_region_from_point(me.position)
@@ -58,7 +59,6 @@ class MyBot(lugo4py.Bot, ABC):
                 my_order = reader.make_order_move_max_speed(me.position, opponent_goal_point)
 
             order_set.debug_message = "attack!"
-
             order_set.orders.append(my_order)
             return order_set
 
@@ -72,6 +72,8 @@ class MyBot(lugo4py.Bot, ABC):
 
             ball_holder_position = snapshot.ball.position
 
+            # "point" is an X and Y raw coordinate refereciend by the field, so the side of the field matters!
+            # "region" is a mapped area of the field create by your mapper! so the side of the field DO NOT matter!
             ball_holder_region = self.mapper.get_region_from_point(ball_holder_position)
             my_region = self.mapper.get_region_from_point(me.position)
 
