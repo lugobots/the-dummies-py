@@ -19,9 +19,19 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 ## How to use this source code
 
 1. **Checkout the code** or download the most recent tag release
-2. **Test it out**: Before any change, make the Dummies Py play to ensure you are not working on a broken code.
+2. (optional to speed up next steps) Download the images that you will need
+   ```shell
+   docker pull lugobots/server
+   docker pull lugobots/the-dummies-go:latest
+   docker pull python:3.9-slim-buster
+   ```
+3. Run the builder service that will install the depencencies you will need:
+   ```sell 
+   docker compose up builder
+   ```
+3. **Test it out**: Before any change, make the Dummies Py play to ensure you are not working on a broken code.
 
-   ```sh 
+   ```shell 
    docker compose up
    ```
    and open [http://localhost:8080/](http://localhost:8080/) to watch the game.
@@ -34,27 +44,14 @@ If not, before continuing, please visit [the project website](https://lugobots.d
 5. **Are you ready to compete? Build your Docker image:** 
     
     ```sh 
-   docker build -t my-super-bot .
-   ```
-6. :checkered_flag: Before pushing your changes
-
-    On Linux
-   ```sh 
-   export MY_BOT=my-super-bot 
-   docker compose --file docker-compose-test.yml -p tester up
-   ```
-
-    On Windows
-   ```sh 
-   $Env:MY_BOT = "my-super-bot"
-   docker compose --file docker-compose-test.yml -p tester up
+   docker build -t repo.lugobots.dev/[bot handle]:[version] .
    ```
 
 ## How to edit the bot   
 
 ### Main file [main.py](main.py)
 
-You probably will not change this file. It only initializes the bot.
+You will not change this file. It only initializes the bot.
 
 ### Settings file [settings.py](settings.py)
 

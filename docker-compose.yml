@@ -8,7 +8,7 @@ services:
       - "5000:5000"
     healthcheck:
       test: [ "CMD", "grpc-health-probe", "-addr=game_server:5000" ]
-      interval: 2s
+      interval: 300ms
       timeout: 5s
       retries: 100
       start_period: 10s
@@ -22,9 +22,11 @@ services:
       - /bin/bash
       - -c
       -  |
+        cd /app
         if [ ! -d "./venv" ]; then 
-          pip install virtualenv && virtualenv venv --python=python3.9 && source venv/bin/activate
+          pip install virtualenv && virtualenv venv --python=python3.9
         fi
+        source venv/bin/activate
         pip install -r requirements.txt
         # sorry for the 777 , we will find a better way to do that
         chmod 777 -R ./venv
