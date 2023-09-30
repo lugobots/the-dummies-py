@@ -15,6 +15,8 @@ if [ -z "$(ls -A .)" ]; then
    else
          INSTALL_VERSION=$VERSION
    fi
+   git fetch --all --tags -q
+   git checkout -q tags/$INSTALL_VERSION
    echo "Installing The Dummmies Py Verion "$INSTALL_VERSION
    cd ..
    mv the-dummies-py/* .

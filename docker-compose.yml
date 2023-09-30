@@ -18,12 +18,16 @@ services:
   builder:
     image: python:3.9-slim-buster
     working_dir: /app
-    container_name: builder
     command:
       - /bin/bash
       - -c
-      # sorry for the 777 , we will find a better way to do that
-      - pip install virtualenv && virtualenv venv --python=python3.9 && source venv/bin/activate && pip install -r requirements.txt && chmod 777 -R ./venv && ls -l ./venv/
+      -  |
+        if [ ! -d "./venv" ]; then 
+          pip install virtualenv && virtualenv venv --python=python3.9 && source venv/bin/activate
+        fi
+        pip install -r requirements.txt
+        # sorry for the 777 , we will find a better way to do that
+        chmod 777 -R ./venv
     volumes:
       - ./:/app
 

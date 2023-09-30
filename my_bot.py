@@ -47,7 +47,7 @@ class MyBot(lugo4py.Bot, ABC):
         try:
             (reader, me) = self.make_reader(snapshot)
 
-            # "point" is an X and Y raw coordinate refereciend by the field, so the side of the field matters!
+            # "point" is an X and Y raw coordinate referecend by the field, so the side of the field matters!
             # "region" is a mapped area of the field create by your mapper! so the side of the field DO NOT matter!
             opponent_goal_point = reader.get_opponent_goal().get_center()
             goal_region = self.mapper.get_region_from_point(opponent_goal_point)
