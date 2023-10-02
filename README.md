@@ -16,16 +16,29 @@ Use this bot as a starting point to a new one.
 Are you familiar with Lugo? 
 If not, before continuing, please visit [the project website](https://lugobots.dev) and read about the game.
 
-## How to use this source code
+## Quick setup (if you do not want to download or clone the code)
 
-1. **Checkout the code** or download the most recent tag release
-2. (optional to speed up next steps) Download the images that you will need
+You may use the [SetupEnvPy](https://hub.docker.com/r/lugobots/setup-env-py) Docker image to set up the environment for you:
+
+1. Open the terminal on an **empty directory** that will host your bot's source code (Use Powershell on Windows)
+2. Run the following command to set up the project quick start kit
+    ```shell
+    # on Lunix or Mac
+    docker run -v $(pwd):/output lugobots/setup-env-py:latest
+    
+    # on Windows
+    docker run -v ${PWD}:/output lugobots/setup-env-py:latest 
+    ```
+3. (only Linux and Mac) Fix the file permissions running `chown $USER -R .`
+
+## How to use this source code
+1. (optional to speed up next steps) Download the images that you will need
    ```shell
    docker pull lugobots/server
    docker pull lugobots/the-dummies-go:latest
    docker pull python:3.9-slim-buster
    ```
-3. Run the builder service that will install the depencencies you will need:
+2. Run the builder service that will install the depencencies you will need:
    ```sell 
    docker compose up builder
    ```
@@ -35,13 +48,13 @@ If not, before continuing, please visit [the project website](https://lugobots.d
    docker compose up
    ```
    and open [http://localhost:8080/](http://localhost:8080/) to watch the game.
-3. **Now, make your changes**: (see :question:[How to change the bot](#how-to-edit-the-bot))
-4. Play again to see your changes results: 
+4. **Now, make your changes**: (see :question:[How to change the bot](#how-to-edit-the-bot))
+5. Play again to see your changes results: 
 
    ```sh 
    docker compose up
    ```
-5. **Are you ready to compete? Build your Docker image:** 
+6. **Are you ready to compete? Build your Docker image:** 
     
     ```sh 
    docker build -t repo.lugobots.dev/[bot handle]:[version] .
