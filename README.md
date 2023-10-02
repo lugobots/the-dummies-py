@@ -38,7 +38,7 @@ You may use the [SetupEnvPy](https://hub.docker.com/r/lugobots/setup-env-py) Doc
    docker pull lugobots/the-dummies-go:latest
    docker pull python:3.9-slim-buster
    ```
-2. Run the builder service that will install the depencencies you will need:
+2. Run the builder service that will install the depencencies you need (**wait for the service to finish**):
    ```sell 
    docker compose up builder
    ```
