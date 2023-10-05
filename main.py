@@ -3,9 +3,15 @@ import lugo4py
 import lugo4py.mapper as mapper
 
 from concurrent.futures import ThreadPoolExecutor
-from settings import PLAYER_POSITIONS, MAPPER_COLS, MAPPER_ROWS
+from settings import PLAYER_INITIAL_POSITIONS, MAPPER_COLS, MAPPER_ROWS
 
 if __name__ == "__main__":
+    #################################################################################
+    #################################################################################
+    #                You do not need to change this file                            #
+    #                       Work on my_bot.py file                                  #
+    #################################################################################
+    #################################################################################
 
     # first we need to load the env vars that will identify the bot position and field side
     config = lugo4py.EnvVarLoader()
@@ -14,17 +20,9 @@ if __name__ == "__main__":
     # The map will help us to see the field in quadrants (called regions) instead of working with coordinates
     mapper = mapper.Mapper(MAPPER_COLS, MAPPER_ROWS, config.get_bot_team_side())
 
-    region = mapper.get_region(3, 1)
-    frontRegion = region.front()
-    backRegion = region.back()
-    leftRegion = region.left()
-
-    centerPoint = region.get_center()
-
-
     # Our bot strategy defines our bot initial position based on its number
-    initialRegion = mapper.get_region(PLAYER_POSITIONS[config.get_bot_number()]['Col'],
-                                      PLAYER_POSITIONS[config.get_bot_number()]['Row'])
+    initialRegion = mapper.get_region(PLAYER_INITIAL_POSITIONS[config.get_bot_number()]['Col'],
+                                      PLAYER_INITIAL_POSITIONS[config.get_bot_number()]['Row'])
 
     lugo_client = lugo4py.NewClientFromConfig(config, initialRegion.get_center())
 

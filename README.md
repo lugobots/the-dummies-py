@@ -10,55 +10,61 @@ Use this bot as a starting point to a new one.
 
 * Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 * Docker Compose ([https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/))
-* Python 3.9 (if you **really** want to use another version, you will need to update the [docker-compose.yml](./docker-compose.yml))
 
 ## Before starting
 
 Are you familiar with Lugo? 
 If not, before continuing, please visit [the project website](https://lugobots.dev) and read about the game.
 
+## Quick setup (if you do not want to download or clone the code)
+
+You may use the [SetupEnvPy](https://hub.docker.com/r/lugobots/setup-env-py) Docker image to set up the environment for you:
+
+1. Open the terminal on an **empty directory** that will host your bot's source code (Use Powershell on Windows)
+2. Run the following command to set up the project quick start kit
+    ```shell
+    # on Lunix or Mac
+    docker run -v $(pwd):/output lugobots/setup-env-py:latest
+    
+    # on Windows
+    docker run -v ${PWD}:/output lugobots/setup-env-py:latest 
+    ```
+3. (only Linux and Mac) Fix the file permissions running `chown $USER -R .`
+
 ## How to use this source code
+1. (optional to speed up next steps) Download the images that you will need
+   ```shell
+   docker pull lugobots/server
+   docker pull lugobots/the-dummies-go:latest
+   docker pull python:3.9-slim-buster
+   ```
+2. Run the builder service that will install the depencencies you need (**wait for the service to finish**):
+   ```sell 
+   docker compose up builder
+   ```
+3. **Test it out**: Before any change, make the Dummies Py play to ensure you are not working on a broken code.
 
-1. **Checkout the code** or download the most recent tag release
-2. Initialize your venv `virtualenv venv --python=python3.9` 
-3. Activate your virtual environment `source venv/bin/activate`
-3. Install the requirements `pip install -r requirements.txt`
-2. **Test it out**: Before any change, make the Dummies Py play to ensure you are not working on a broken code.
-
-   ```sh 
+   ```shell 
    docker compose up
    ```
    and open [http://localhost:8080/](http://localhost:8080/) to watch the game.
-3. **Now, make your changes**: (see :question:[How to change the bot](#how-to-edit-the-bot))
-4. Play again to see your changes results: 
+4. **Now, make your changes**: (see :question:[How to change the bot](#how-to-edit-the-bot))
+5. Play again to see your changes results: 
 
    ```sh 
    docker compose up
    ```
-5. **Are you ready to compete? Build your Docker image:** 
+6. **Are you ready to compete? Build your Docker image:** 
     
     ```sh 
-   docker build -t my-super-bot .
-   ```
-6. :checkered_flag: Before pushing your changes
-
-    On Linux
-   ```sh 
-   export MY_BOT=my-super-bot 
-   docker compose --file docker-compose-test.yml -p tester up
-   ```
-
-    On Windows
-   ```sh 
-   $Env:MY_BOT = "my-super-bot"
-   docker compose --file docker-compose-test.yml -p tester up
+   docker build -t repo.lugobots.dev/[bot handle]:[version] .
    ```
 
 ## How to edit the bot   
 
 ### Main file [main.py](main.py)
 
-You probably will not change this file. It only initializes the bot.
+You will not change this file. It only initializes the bot.
 
 ### Settings file [settings.py](settings.py)
 

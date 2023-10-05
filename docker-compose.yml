@@ -8,10 +8,30 @@ services:
       - "5000:5000"
     healthcheck:
       test: [ "CMD", "grpc-health-probe", "-addr=game_server:5000" ]
-      interval: 2s
+      interval: 300ms
       timeout: 5s
       retries: 100
       start_period: 10s
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+  builder:
+    image: python:3.9-slim-buster
+    working_dir: /app
+    command:
+      - /bin/bash
+      - -c
+      -  |
+        cd /app
+        if [ ! -d "./venv" ]; then 
+          pip install virtualenv && virtualenv venv --python=python3.9
+        fi
+        source venv/bin/activate
+        pip install -r requirements.txt
+        # sorry for the 777 , we will find a better way to do that
+        chmod 777 -R ./venv
+    volumes:
+      - ./:/app
 
   player_home_01:
     image: python:3.9-slim-buster
@@ -21,8 +41,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=1
       - BOT_TEAM=home
@@ -36,8 +58,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=2
       - BOT_TEAM=home
@@ -51,8 +75,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=3
       - BOT_TEAM=home
@@ -66,8 +92,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=4
       - BOT_TEAM=home
@@ -81,8 +109,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=5
       - BOT_TEAM=home
@@ -96,8 +126,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=6
       - BOT_TEAM=home
@@ -111,8 +143,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=7
       - BOT_TEAM=home
@@ -126,8 +160,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=8
       - BOT_TEAM=home
@@ -141,8 +177,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=9
       - BOT_TEAM=home
@@ -156,8 +194,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=10
       - BOT_TEAM=home
@@ -171,8 +211,10 @@ services:
       - ./:/usr/src/app
       - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=11
       - BOT_TEAM=home
@@ -181,8 +223,10 @@ services:
   player_away_01:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=1
       - BOT_TEAM=away
@@ -192,8 +236,10 @@ services:
   player_away_02:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=2
       - BOT_TEAM=away
@@ -203,8 +249,10 @@ services:
   player_away_03:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=3
       - BOT_TEAM=away
@@ -213,8 +261,10 @@ services:
   player_away_04:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=4
       - BOT_TEAM=away
@@ -223,8 +273,10 @@ services:
   player_away_05:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=5
       - BOT_TEAM=away
@@ -233,8 +285,10 @@ services:
   player_away_06:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=6
       - BOT_TEAM=away
@@ -243,8 +297,10 @@ services:
   player_away_07:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=7
       - BOT_TEAM=away
@@ -253,8 +309,10 @@ services:
   player_away_08:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=8
       - BOT_TEAM=away
@@ -263,8 +321,10 @@ services:
   player_away_09:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=9
       - BOT_TEAM=away
@@ -273,8 +333,10 @@ services:
   player_away_10:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=10
       - BOT_TEAM=away
@@ -283,8 +345,10 @@ services:
   player_away_11:
     image: lugobots/the-dummies-go:latest
     depends_on:
-      game_server:
-        condition: service_healthy
+        game_server:
+          condition: service_healthy
+        builder:
+          condition: service_completed_successfully
     environment:
       - BOT_NUMBER=11
       - BOT_TEAM=away
