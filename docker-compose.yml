@@ -34,8 +34,8 @@ services:
       - ./:/app
 
   player_home_01:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -51,8 +51,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_02:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -68,8 +68,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_03:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -85,8 +85,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_04:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -102,8 +102,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_05:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -119,8 +119,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_06:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -136,8 +136,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_07:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -153,8 +153,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_08:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -170,8 +170,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_09:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -187,8 +187,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_10:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -204,8 +204,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_11:
-    image: python:3.9-slim-buster
-    command: ["python", "main.py" ]
+    build: .
+    command: ["python", "hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -232,6 +232,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
 
   player_away_02:
     image: lugobots/the-dummies-go:latest
@@ -245,6 +246,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
 
   player_away_03:
     image: lugobots/the-dummies-go:latest
@@ -258,6 +260,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_04:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -270,6 +273,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_05:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -282,6 +286,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_06:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -294,6 +299,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_07:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -306,6 +312,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_08:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -318,6 +325,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_09:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -330,6 +338,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_10:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -342,6 +351,7 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
   player_away_11:
     image: lugobots/the-dummies-go:latest
     depends_on:
@@ -354,4 +364,5 @@ services:
       - BOT_TEAM=away
       - BOT_GRPC_URL=game_server:5000
       - BOT_GRPC_INSECURE=true
+    restart: on-failure
 
