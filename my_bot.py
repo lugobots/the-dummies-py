@@ -15,6 +15,11 @@ class MyBot(lugo4py.Bot, ABC):
 
             # try the auto complet for reader.make_order_... there are other options
             move_order = reader.make_order_move_max_speed(me.position, ball_position)
+
+            # Try other methods to create Move Orders:
+            # move_order = reader.make_order_move_by_direction(lugo4py.DIRECTION_FORWARD)
+            # move_order = reader.make_order_move_from_vector(lugo4py.sub_vector(vector_a, vector_b))
+
             # we can ALWAYS try to catch the ball
             catch_order = reader.make_order_catch()
 
