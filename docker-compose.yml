@@ -34,8 +34,8 @@ services:
       - ./:/app
 
   player_home_01:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -51,8 +51,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_02:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -68,8 +68,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_03:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -85,8 +85,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_04:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -102,8 +102,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_05:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -119,8 +119,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_06:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -136,8 +136,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_07:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -153,8 +153,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_08:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -170,8 +170,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_09:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -187,8 +187,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_10:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -204,8 +204,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_11:
-    build: .
-    command: ["python", "hot_reload.py" ]
+    image: python:3.9-slim-buster
+    command: ["python", ".lugo/hot_reload.py" ]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
