@@ -7,7 +7,7 @@ if [ -z "$(ls -A .)" ]; then
      exit
    fi
    cd the-dummies-py
-   LATEST_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+   LATEST_VERSION=$(git tag --sort=-creatordate | grep -v rc | head -n 1)
    echo "Latest version: "$LATEST_VERSION
    if [ -z "$VERSION" ]
    then
@@ -17,10 +17,11 @@ if [ -z "$(ls -A .)" ]; then
    fi
    git fetch --all --tags -q  &>/dev/null
    git checkout -q tags/$INSTALL_VERSION || { echo 'could not checkout that tag, does it actually exist?' ; exit 1; }
-   echo "Installing The Dummmies Py Verion "$INSTALL_VERSION
+   echo "Installing The Dummies Py Version "$INSTALL_VERSION
    cd ..
-   mv the-dummies-py/* .
+   mv the-dummies-py/{.[!.],}* .
    rm -rf the-dummies-py
+   rm -rf .git
    echo "All done!"
    echo ""
    echo "On Linux or Mac, Please fix the file permissions running:"
