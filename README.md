@@ -1,6 +1,6 @@
 # Lugo - The Dummies Py
 
-The Dummies Py is a Python implementation of a player (bot) for [Lugo](https://lugobots.dev) game.
+The Dummies PY is a Python implementation of a player (bot) for [Lugo](https://lugobots.dev) game.
 
 This bot was made using the [Python Client Player](https://github.com/lugobots/lugo4py).
 
@@ -77,33 +77,33 @@ Settings file only stores configurations that will affect the player behaviour, 
 There will be 5 important methods that you must edit to change the bot behaviour.
 
 ```python
-    def on_disputing (self, orderSet: lugo4py.OrderSet, snapshot: GameSnapshot) -> OrderSet:
+    def on_disputing (self, inspector: GameSnapshotInspector) -> List[Order]:
         # on_disputing is called when no one has the ball possession
         pass
 
     @abstractmethod
-    def on_defending (self, orderSet: OrderSet, snapshot: GameSnapshot) -> OrderSet:
+    def on_defending (self, inspector: GameSnapshotInspector) -> List[Order]:
         # OnDefending is called when an opponent player has the ball possession
         pass
 
     @abstractmethod
-    def on_holding (self, orderSet: OrderSet, snapshot: GameSnapshot) -> OrderSet:
+    def on_holding (self, inspector: GameSnapshotInspector) -> List[Order]:
         # OnHolding is called when this bot has the ball possession
         pass
 
     @abstractmethod
-    def on_supporting (self, orderSet: OrderSet, snapshot: GameSnapshot) -> OrderSet:
+    def on_supporting (self, inspector: GameSnapshotInspector) -> List[Order]:
         # OnSupporting is called when a teammate player has the ball possession
         pass
 
     @abstractmethod
-    def as_goalkeeper (self, orderSet: OrderSet, snapshot: GameSnapshot, state: PLAYER_STATE) -> OrderSet:
+    def as_goalkeeper (self, inspector: GameSnapshotInspector, state: PLAYER_STATE) -> List[Order]:
         # AsGoalkeeper is only called when this bot is the goalkeeper (number 1). This method is called on every turn,
         # and the player state is passed at the last parameter.
         pass
 
     @abstractmethod
-    def getting_ready (self, snapshot: GameSnapshot):
+    def getting_ready (self, inspector: GameSnapshotInspector):
         # getting_ready will be called before the game starts and after a goal event. You will only need to implement
         # this method in very rare cases.
         pass
