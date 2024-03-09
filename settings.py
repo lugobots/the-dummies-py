@@ -21,7 +21,7 @@ PLAYER_INITIAL_POSITIONS = {
     11: {'Col': 4, 'Row': 2},
 }
 
-def get_my_expected_position(reader: lugo4py.GameSnapshotReader, my_mapper: mapper.Mapper, number: int):
+def get_my_expected_position(inspector: lugo4py.GameSnapshotInspector, my_mapper: mapper.Mapper, number: int):
     mapper_cols = MAPPER_COLS
 
     player_tactic_positions = {
@@ -63,7 +63,7 @@ def get_my_expected_position(reader: lugo4py.GameSnapshotReader, my_mapper: mapp
         }
     }
 
-    ball_region = my_mapper.get_region_from_point(reader.get_ball().position)
+    ball_region = my_mapper.get_region_from_point(inspector.get_ball().position)
     field_third = mapper_cols / 3
     ball_cols = ball_region.get_col()
 
