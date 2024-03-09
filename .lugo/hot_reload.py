@@ -1,5 +1,6 @@
 import subprocess
 import os
+import signal
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -13,13 +14,14 @@ watched_directory = "./"
 # Define a flag to check if the server is running
 server_running = False
 
-
+process_id = 0
 # Function to start the server
 def start_server():
     global server_running
+    global process_id
     if not server_running:
         print("Starting the server...")
-        subprocess.Popen(server_command, shell=True)
+        process_id = subprocess.Popen(server_command, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
         server_running = True
 
 
@@ -28,7 +30,8 @@ def stop_server():
     global server_running
     if server_running:
         print("Stopping the server...")
-        os.system("pkill -f main.py")
+        global process_id
+        os.killpg(os.getpgid(process_id.pid), signal.SIGTERM)
         server_running = False
 
 
