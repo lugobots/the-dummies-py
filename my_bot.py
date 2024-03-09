@@ -48,7 +48,7 @@ class MyBot(lugo4py.Bot, ABC):
 
             # "point" is an X and Y raw coordinate referecend by the field, so the side of the field matters!
             # "region" is a mapped area of the field create by your mapper! so the side of the field DO NOT matter!
-            opponent_goal_point = inspector.get_opponent_goal().get_center()
+            opponent_goal_point = self.mapper.get_attack_goal()
             goal_region = self.mapper.get_region_from_point(opponent_goal_point)
             my_region = self.mapper.get_region_from_point(inspector.get_me().position)
 
@@ -67,7 +67,7 @@ class MyBot(lugo4py.Bot, ABC):
         try:
             ball_holder_position = inspector.get_ball().position
 
-            # "point" is an X and Y raw coordinate refereciend by the field, so the side of the field matters!
+            # "point" is an X and Y raw coordinate referenced by the field, so the side of the field matters!
             # "region" is a mapped area of the field create by your mapper! so the side of the field DO NOT matter!
             ball_holder_region = self.mapper.get_region_from_point(ball_holder_position)
             my_region = self.mapper.get_region_from_point(inspector.get_me().position)
@@ -89,7 +89,7 @@ class MyBot(lugo4py.Bot, ABC):
             position = inspector.get_ball().position
 
             if state != lugo4py.PLAYER_STATE.DISPUTING_THE_BALL:
-                position = self.get_center()
+                position = self.mapper.get_defense_goal().get_center()
 
             my_order = inspector.make_order_move_max_speed(position)
 
