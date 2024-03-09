@@ -11,7 +11,53 @@ Use this bot as a starting point to a new one.
 * Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 * Docker Compose ([https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/))
 
+
+### (optional) Dependencies for IDE intellisense 
+
+You must install the projects requirements if you want to have the IDE intellisense working correctly in your environment.
+
+```shell
+sudo apt install python3.9-venv
+python3.9 -m venv venv
+. venv/bin/activate
+
+```
+
+
 ## Before starting
+
+sudo apt install python3.9-venv
+
+
+code .
+
+
+
+
+
+<!-- 
+1. tem que instalar o python
+virtualenv venv --python=python3.9
+
+2. selecionar o intepreter
+3. pip install virtualenv  sudo apt install python3-virtualenv
+sudo apt install python3-pip 
+-->
+
+
+
+Vinicius
+9:58 AM
+https://python-poetry.org/
+sudo apt install python3-poetry
+poetry init
+Vinicius
+10:00 AM
+python3 -m venv myenv
+. myenv/bin/activate
+code .
+
+
 
 Are you familiar with Lugo? 
 If not, before continuing, please visit [the project website](https://lugobots.dev) and read about the game.

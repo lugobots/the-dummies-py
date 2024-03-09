@@ -78,7 +78,7 @@ class MyBot(lugo4py.Bot, ABC):
                 move_dest = get_my_expected_position(inspector, self.mapper, self.number)
 
             move_order = inspector.make_order_move_max_speed(move_dest)
-            return move_order
+            return [move_order]
 
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
