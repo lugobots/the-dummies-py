@@ -11,25 +11,42 @@ Use this bot as a starting point to a new one.
 * Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 * Docker Compose ([https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/))
 
-## Before starting
 
-Are you familiar with Lugo? 
+### (optional) Dependencies for IDE intellisense 
+
+You must install the projects requirements if you want to have the IDE intellisense working correctly in your environment.
+
+```shell
+cd /path/to/your/project
+sudo apt install python3.9-venv
+python3.9 -m venv venv
+. venv/bin/activate
+```
+
+#### Configure VS Code
+
+1. `ctrl + p`
+2. "Python: Create Environment"
+3. Venv
+4. Select Python3.9 (you need to install this version if you still don´t have it)
+
+#### Configure IntellyJ IDE family (PyCharm, Idea, and others)
+
+(see [https://www.jetbrains.com/help/idea/configuring-local-python-interpreters.html](https://www.jetbrains.com/help/idea/configuring-local-python-interpreters.html))
+
+1. Click on File
+2. Project Structure
+3. Click on Project
+4. Select Python3.9 in the SDK list
+
+The IDE will ask you if you want to install the dependencies. 
+
+## Are you familiar with Lugo? 
 If not, before continuing, please visit [the project website](https://lugobots.dev) and read about the game.
 
 ## Quick setup (if you do not want to download or clone the code)
 
 You may use the [SetupEnvPy](https://hub.docker.com/r/lugobots/setup-env-py) Docker image to set up the environment for you:
-
-1. Open the terminal on an **empty directory** that will host your bot's source code (Use Powershell on Windows)
-2. Run the following command to set up the project quick start kit
-    ```shell
-    # on Lunix or Mac
-    docker run -v $(pwd):/output lugobots/setup-env-py:latest
-    
-    # on Windows
-    docker run -v ${PWD}:/output lugobots/setup-env-py:latest 
-    ```
-3. (only Linux and Mac) Fix the file permissions running `chown $USER -R .`
 
 ## How to use this source code
 1. (optional to speed up next steps) Download the images that you will need
@@ -77,33 +94,57 @@ Settings file only stores configurations that will affect the player behaviour, 
 There will be 5 important methods that you must edit to change the bot behaviour.
 
 ```python
+<<<<<<< HEAD
     def on_disputing (self, inspector: GameSnapshotInspector) -> List[Order]:
+=======
+    def on_disputing(self, inspector: GameSnapshotInspector) -> List[Order]:
+>>>>>>> master
         # on_disputing is called when no one has the ball possession
         pass
 
     @abstractmethod
+<<<<<<< HEAD
     def on_defending (self, inspector: GameSnapshotInspector) -> List[Order]:
+=======
+    def on_defending(self, inspector: GameSnapshotInspector) -> List[Order]:
+>>>>>>> master
         # OnDefending is called when an opponent player has the ball possession
         pass
 
     @abstractmethod
+<<<<<<< HEAD
     def on_holding (self, inspector: GameSnapshotInspector) -> List[Order]:
+=======
+    def on_holding(self, inspector: GameSnapshotInspector) -> List[Order]:
+>>>>>>> master
         # OnHolding is called when this bot has the ball possession
         pass
 
     @abstractmethod
+<<<<<<< HEAD
     def on_supporting (self, inspector: GameSnapshotInspector) -> List[Order]:
+=======
+    def on_holding(self, inspector: GameSnapshotInspector) -> List[Order]:
+>>>>>>> master
         # OnSupporting is called when a teammate player has the ball possession
         pass
 
     @abstractmethod
+<<<<<<< HEAD
     def as_goalkeeper (self, inspector: GameSnapshotInspector, state: PLAYER_STATE) -> List[Order]:
+=======
+    def as_goalkeeper(self, inspector: GameSnapshotInspector, state: PLAYER_STATE) -> List[Order]:
+>>>>>>> master
         # AsGoalkeeper is only called when this bot is the goalkeeper (number 1). This method is called on every turn,
         # and the player state is passed at the last parameter.
         pass
 
     @abstractmethod
+<<<<<<< HEAD
     def getting_ready (self, inspector: GameSnapshotInspector):
+=======
+    def getting_ready(self, inspector: GameSnapshotInspector):
+>>>>>>> master
         # getting_ready will be called before the game starts and after a goal event. You will only need to implement
         # this method in very rare cases.
         pass

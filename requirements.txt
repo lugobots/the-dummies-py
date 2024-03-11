@@ -1,5 +1,9 @@
 grpcio==1.51.1
 grpcio-tools==1.51.1
+<<<<<<< HEAD
 lugo4py==1.0.0
+=======
+lugo4py==1.0.3
+>>>>>>> master
 protobuf==4.21.12
 watchdog==3.0.0

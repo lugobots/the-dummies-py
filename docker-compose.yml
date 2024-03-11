@@ -23,13 +23,13 @@ services:
       - -c
       -  |
         cd /app
-        if [ ! -d "./venv" ]; then 
-          pip install virtualenv && virtualenv venv --python=python3.9
+        if [ ! -d ".lugo/venv" ]; then 
+          pip install virtualenv && virtualenv .lugo/venv --python=python3.9
         fi
-        source venv/bin/activate
+        source .lugo/venv/bin/activate
         pip install -r requirements.txt
         # sorry for the 777 , we will find a better way to do that
-        chmod 777 -R ./venv
+        chmod 777 -R .lugo/venv
     volumes:
       - ./:/app
 
@@ -39,7 +39,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -56,7 +56,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -73,7 +73,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -90,7 +90,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -107,7 +107,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -124,7 +124,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -141,7 +141,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -158,7 +158,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -175,7 +175,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -192,7 +192,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
@@ -209,7 +209,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-      - ./venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
+      - .lugo/venv/lib/python3.9/site-packages:/usr/local/lib/python3.9/site-packages/
     depends_on:
         game_server:
           condition: service_healthy
