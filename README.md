@@ -94,57 +94,33 @@ Settings file only stores configurations that will affect the player behaviour, 
 There will be 5 important methods that you must edit to change the bot behaviour.
 
 ```python
-<<<<<<< HEAD
-    def on_disputing (self, inspector: GameSnapshotInspector) -> List[Order]:
-=======
     def on_disputing(self, inspector: GameSnapshotInspector) -> List[Order]:
->>>>>>> master
         # on_disputing is called when no one has the ball possession
         pass
 
     @abstractmethod
-<<<<<<< HEAD
-    def on_defending (self, inspector: GameSnapshotInspector) -> List[Order]:
-=======
     def on_defending(self, inspector: GameSnapshotInspector) -> List[Order]:
->>>>>>> master
         # OnDefending is called when an opponent player has the ball possession
         pass
 
     @abstractmethod
-<<<<<<< HEAD
-    def on_holding (self, inspector: GameSnapshotInspector) -> List[Order]:
-=======
     def on_holding(self, inspector: GameSnapshotInspector) -> List[Order]:
->>>>>>> master
         # OnHolding is called when this bot has the ball possession
         pass
 
     @abstractmethod
-<<<<<<< HEAD
-    def on_supporting (self, inspector: GameSnapshotInspector) -> List[Order]:
-=======
     def on_holding(self, inspector: GameSnapshotInspector) -> List[Order]:
->>>>>>> master
         # OnSupporting is called when a teammate player has the ball possession
         pass
 
     @abstractmethod
-<<<<<<< HEAD
-    def as_goalkeeper (self, inspector: GameSnapshotInspector, state: PLAYER_STATE) -> List[Order]:
-=======
     def as_goalkeeper(self, inspector: GameSnapshotInspector, state: PLAYER_STATE) -> List[Order]:
->>>>>>> master
         # AsGoalkeeper is only called when this bot is the goalkeeper (number 1). This method is called on every turn,
         # and the player state is passed at the last parameter.
         pass
 
     @abstractmethod
-<<<<<<< HEAD
-    def getting_ready (self, inspector: GameSnapshotInspector):
-=======
     def getting_ready(self, inspector: GameSnapshotInspector):
->>>>>>> master
         # getting_ready will be called before the game starts and after a goal event. You will only need to implement
         # this method in very rare cases.
         pass
