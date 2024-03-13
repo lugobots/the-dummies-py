@@ -1,6 +1,6 @@
 # Lugo - The Dummies Py
 
-The Dummies Py is a Python implementation of a player (bot) for [Lugo](https://lugobots.dev) game.
+The Dummies PY is a Python implementation of a player (bot) for [Lugo](https://lugobots.dev) game.
 
 This bot was made using the [Python Client Player](https://github.com/lugobots/lugo4py).
 
