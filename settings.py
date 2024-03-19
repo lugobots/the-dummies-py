@@ -7,19 +7,20 @@ import lugo4py.mapper as mapper
 MAPPER_COLS = 10
 MAPPER_ROWS = 6
 
-PLAYER_INITIAL_POSITIONS = {
-    1: {'Col': 0, 'Row': 0},
-    2: {'Col': 1, 'Row': 1},
-    3: {'Col': 2, 'Row': 2},
-    4: {'Col': 2, 'Row': 3},
-    5: {'Col': 1, 'Row': 4},
-    6: {'Col': 3, 'Row': 1},
-    7: {'Col': 3, 'Row': 2},
-    8: {'Col': 3, 'Row': 3},
-    9: {'Col': 3, 'Row': 4},
-    10: {'Col': 4, 'Row': 3},
-    11: {'Col': 4, 'Row': 2},
-}
+# Example how to create your custom initial positions
+# PLAYER_INITIAL_POSITIONS = {
+#     1: {'Col': 0, 'Row': 0},
+#     2: {'Col': 1, 'Row': 1},
+#     3: {'Col': 2, 'Row': 2},
+#     4: {'Col': 2, 'Row': 3},
+#     5: {'Col': 1, 'Row': 4},
+#     6: {'Col': 3, 'Row': 1},
+#     7: {'Col': 3, 'Row': 2},
+#     8: {'Col': 3, 'Row': 3},
+#     9: {'Col': 3, 'Row': 4},
+#     10: {'Col': 4, 'Row': 3},
+#     11: {'Col': 4, 'Row': 2},
+# }
 
 def get_my_expected_position(inspector: lugo4py.GameSnapshotInspector, my_mapper: mapper.Mapper, number: int):
     mapper_cols = MAPPER_COLS

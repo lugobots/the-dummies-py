@@ -21,6 +21,7 @@ cd /path/to/your/project
 sudo apt install python3.9-venv
 python3.9 -m venv venv
 . venv/bin/activate
+pip install -r requirements.txt
 ```
 
 #### Configure VS Code
