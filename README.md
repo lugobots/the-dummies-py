@@ -16,6 +16,18 @@ Use this bot as a starting point to a new one.
 
 You must install the projects requirements if you want to have the IDE intellisense working correctly in your environment.
 
+### On Windows
+1. Download the Python 3.9 installer [https://www.python.org/downloads/release/python-3912/](https://www.python.org/downloads/release/python-3912/)
+2. On the Python installing wizard, remember to check the option to install the **Pip** tool
+3. On the project directory, run:
+```
+pip install virtualenv
+python.exe -m venv venv
+pip install -r requirements.txt
+
+```
+
+### On Linux or Mac
 ```shell
 cd /path/to/your/project
 sudo apt install python3.9-venv
@@ -24,12 +36,12 @@ python3.9 -m venv venv
 pip install -r requirements.txt
 ```
 
-#### Configure VS Code
+### Configure VS Code
 
 1. `ctrl + p`
 2. "Python: Create Environment"
 3. Venv
-4. Select Python3.9 (you need to install this version if you still don´t have it)
+4. Select Python3.9 
 
 #### Configure IntellyJ IDE family (PyCharm, Idea, and others)
 
