@@ -17,4 +17,3 @@ fi
 echo " - Installing Python requirements"
 source .lugo/venv/bin/activate
 pip install -q -r requirements.txt
-#chmod 777 -R .lugo/venv
