@@ -16,26 +16,18 @@ services:
       builder:
         condition: service_completed_successfully
   builder:
-    image: python:3.9-slim-buster
+    image: bot_watcher
+    build:
+      context: .
+      dockerfile: .lugo/watcher.Dockerfile
     working_dir: /app
-    command:
-      - /bin/bash
-      - -c
-      -  |
-        cd /app
-        if [ ! -d ".lugo/venv" ]; then 
-          pip install virtualenv && virtualenv .lugo/venv --python=python3.9
-        fi
-        source .lugo/venv/bin/activate
-        pip install -r requirements.txt
-        # sorry for the 777 , we will find a better way to do that
-        chmod 777 -R .lugo/venv
+    command: .lugo/builder.sh
     volumes:
       - ./:/app
 
   player_home_01:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -51,8 +43,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_02:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -66,10 +58,9 @@ services:
       - BOT_NUMBER=2
       - BOT_TEAM=home
       - BOT_GRPC_URL=game_server:5000
-
   player_home_03:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -85,8 +76,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_04:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -102,8 +93,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_05:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -119,8 +110,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_06:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -136,8 +127,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_07:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -153,8 +144,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_08:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -170,8 +161,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_09:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -187,8 +178,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_10:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -204,8 +195,8 @@ services:
       - BOT_GRPC_URL=game_server:5000
 
   player_home_11:
-    image: python:3.9-slim-buster
-    command: ["python", ".lugo/hot_reload.py" ]
+    image: bot_watcher
+    command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
