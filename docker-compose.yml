@@ -19,9 +19,9 @@ services:
     image: bot_watcher
     build:
       context: .
-      dockerfile: .lugo/watcher.Dockerfile
+      dockerfile: .lugo/builder.Dockerfile
     working_dir: /app
-    command: .lugo/builder.sh
+    command: [".lugo/builder.sh"]
     volumes:
       - ./:/app
 
