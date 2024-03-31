@@ -2,8 +2,6 @@
 
 echo "Building bot image"
 cd .lugo || exit 1
-echo " - Installing hot load watcher"
-npm install -g nodemon@3.0.1 > /dev/null
 
 cd /app || exit 2
 
