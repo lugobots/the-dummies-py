@@ -2,4 +2,3 @@ grpcio==1.51.1
 grpcio-tools==1.51.1
 lugo4py==1.0.4
 protobuf==4.21.12
-watchdog==3.0.0

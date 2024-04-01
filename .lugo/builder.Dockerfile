@@ -1,5 +1,6 @@
 FROM python:3.9-slim-buster
 
+# Installing NodeJS to we can use Nodemon instead of watchdog (Whatchdos does not work weel on containers on Windows)
 ENV NODE_VERSION=16.13.0
 RUN apt-get update && apt install -y curl
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash

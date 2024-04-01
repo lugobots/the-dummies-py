@@ -2,4 +2,3 @@
 .vscode/
 venv
 .studio/
-#.lugo/package-lock.json
