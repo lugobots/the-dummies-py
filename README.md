@@ -87,20 +87,20 @@ You may use the [SetupEnvPy](https://hub.docker.com/r/lugobots/setup-env-py) Doc
 6. **Are you ready to compete? Build your Docker image:** 
     
     ```sh 
-   docker build -t repo.lugobots.dev/[bot handle]:[version] .
+   docker build -f .lugo/Dockerfile -t repo.lugobots.ai/[bot handle]:[version] .
    ```
 
 ## How to edit the bot   
 
-### Main file [main.py](main.py)
+### Main file [main.py](src/main.py)
 
 You will not change this file. It only initializes the bot.
 
-### Settings file [settings.py](settings.py)
+### Settings file [settings.py](src/settings.py)
 
 Settings file only stores configurations that will affect the player behaviour, e.g. positions, tactic, etc.
 
-### My bot [my_bot.py](my_bot.py)
+### My bot [my_bot.py](src/my_bot.py)
 
 :eyes: This is the most important file!
 
