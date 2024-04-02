@@ -1,0 +1,6 @@
+{
+  "ignore": [".lugo"],
+  "watch": ["."],
+  "exec": "PYTHONUNBUFFERED=yes python -u src/main.py",
+  "ext": "py"
+}
