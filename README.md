@@ -10,11 +10,25 @@ Use this bot as a starting point to a new one.
 
 * Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 * Docker Compose ([https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/))
+* Python ≥ 3.9 [https://www.python.org/downloads/release/python-3912/](https://www.python.org/downloads/release/python-3912/)
 
 
-### (optional) Dependencies for IDE intellisense 
+### Quick Setup
+From the project root run the setup script according to your platform.
 
-You must install the projects requirements if you want to have the IDE intellisense working correctly in your environment.
+* Windows:
+```bash
+.\setup.ps1
+```
+
+* Linux/MacOS:
+```powershell
+./setup.sh
+```
+
+It will check if Python ≥ 3.9 is available, create and activate the `venv` folder and install the dependencies.
+
+## Manual Setup (Optional)
 
 ### On Windows
 1. Download the Python 3.9 installer [https://www.python.org/downloads/release/python-3912/](https://www.python.org/downloads/release/python-3912/)
@@ -24,7 +38,6 @@ You must install the projects requirements if you want to have the IDE intellise
 pip install virtualenv
 python.exe -m venv venv
 pip install -r requirements.txt
-
 ```
 
 ### On Linux or Mac
