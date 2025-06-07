@@ -1,4 +1,4 @@
-grpcio==1.62.1
-grpcio-tools==1.62.1
+grpcio==1.72.1
+grpcio-tools==1.72.1
 lugo4py==1.0.5
-protobuf==4.21.12
+protobuf==6.31.1
