@@ -10,6 +10,29 @@ class MyBot(lugo4py.Bot, ABC):
     def on_disputing(self, inspector: lugo4py.GameSnapshotInspector) -> List[lugo4py.Order]:
         try:
 
+            # You have three sources of data about the game
+            #
+            # 1. inspector - provides real time data about the game elements.
+            # You bot receives an inspector every turn. You may read all data about the elements of the game, time,
+            # score, and everything else that changes during the game
+            # The inspector also helps you to create orders:
+            # inspector.get_my_team_players() # returns an array
+            # inspector.get_me() # return the bot itself
+            # inspector.get_ball().position
+            # inspector.make_order_move_by_direction(lugo4py.DIRECTION.FORWARD)
+            # inspector.make_order_move_from_point(ball_position)
+            #
+            # 2. self.mapper - Provides data about field coordinates, such as the location of the goals.
+            # The Mapper views the field as a set of "regions" relative to your team’s side, rather than using fixed
+            # coordinates. This means you don’t need to worry about which side you’re playing on—these coordinates
+            # will always make sense from your team’s perspective.
+            # Example: self.mapper.get_region_from_point(me.position).get_center()
+            #
+            # 3. specs - brings all the game specification.
+            # Example:
+            # lugo4py.specs.MAX_Y_COORDINATE
+            # lugo4py.specs.BALL_MAX_SPEED
+
             ball_position = inspector.get_ball().position
 
             # try the auto complete for reader.make_order_... there are other options
