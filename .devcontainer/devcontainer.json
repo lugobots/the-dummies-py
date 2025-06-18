@@ -1,8 +1,8 @@
 {
   "name": "MyBot",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "image": "mcr.microsoft.com/devcontainers/python:3.9",
   "features": {},
-  "postCreateCommand": "pip install -r requirements.txt || true",
+  "postCreateCommand": "sudo chown -R vscode:vscode . && pip install -r requirements.txt || true",
   "customizations": {
     "vscode": {
       "settings": {
