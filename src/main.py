@@ -31,9 +31,11 @@ if __name__ == "__main__":
     def on_join():
         print("I may run it when the bot is connected to the server")
 
-    starter.run(MyBot(
+    b = MyBot(
         starter.get_config().get_bot_team_side(),
         starter.get_config().get_bot_number(),
         starter.get_initial_position(),
         starter.get_mapper()
-    ), on_join)
+    )
+    b.load_models()
+    starter.run(b, on_join)

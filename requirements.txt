@@ -1,4 +1,6 @@
+lugo4py==1.0.6rc7
 grpcio==1.51.1
 grpcio-tools==1.51.1
-lugo4py==1.0.5
 protobuf==4.21.12
+stable_baselines3==2.6.0
+gym==0.26.2

@@ -3,10 +3,17 @@ from abc import ABC
 from typing import List
 
 import lugo4py
+from stable_baselines3 import PPO
+
 from settings import get_my_expected_position
+from rl.bot_trainer import MyBotTrainer
 
 
 class MyBot(lugo4py.Bot, ABC):
+
+    def load_models(self):
+        self.model_move = PPO.load("model-2025-06-30-17-48")
+
     def on_disputing(self, inspector: lugo4py.GameSnapshotInspector) -> List[lugo4py.Order]:
         try:
 
@@ -37,6 +44,7 @@ class MyBot(lugo4py.Bot, ABC):
 
             # try the auto complete for reader.make_order_... there are other options
             move_order = inspector.make_order_move_max_speed(ball_position)
+            my_region = self.mapper.get_region_from_point(inspector.get_me().position)
 
             # Try other methods to create Move Orders:
             # move_order = reader.make_order_move_by_direction(lugo4py.DIRECTION_FORWARD)
@@ -45,7 +53,15 @@ class MyBot(lugo4py.Bot, ABC):
             # we can ALWAYS try to catch the ball
             catch_order = inspector.make_order_catch()
 
-            return [move_order, catch_order]
+            if self.am_i_closest(inspector, ball_position, 2):
+                return [move_order, catch_order]
+            else:
+                if self.is_near(my_region, self.mapper.get_region_from_point(self.initPosition)) is False:
+                    move_order = inspector.make_order_move_max_speed(self.initPosition)
+                    return [move_order, catch_order]
+                return [catch_order]
+
+
 
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
@@ -55,12 +71,23 @@ class MyBot(lugo4py.Bot, ABC):
         try:
 
             ball_position = inspector.get_ball().position
-
-            move_order = inspector.make_order_move_max_speed(ball_position)
             # we can ALWAYS try to catch the ball
             catch_order = inspector.make_order_catch()
 
-            return [move_order, catch_order]
+            move_order = inspector.make_order_move_max_speed(ball_position)
+            my_region = self.mapper.get_region_from_point(inspector.get_me().position)
+
+            if self.am_i_closest(inspector, ball_position, 2):
+                return [move_order, catch_order]
+            else:
+                if self.is_near(my_region, self.mapper.get_region_from_point(self.initPosition)) is False:
+                    move_order = inspector.make_order_move_max_speed(self.initPosition)
+                    return [move_order, catch_order]
+                else:
+                    move_order = inspector.make_order_move_to_stop()
+                    return [move_order, catch_order]
+            return [catch_order]
+
         except Exception as e:
             print(f'did not play this turn due to exception {e}')
             traceback.print_exc()
@@ -68,18 +95,26 @@ class MyBot(lugo4py.Bot, ABC):
     def on_holding(self, inspector: lugo4py.GameSnapshotInspector) -> List[lugo4py.Order]:
         try:
 
-            # "point" is an X and Y raw coordinate referenced by the field, so the side of the field matters!
-            # "region" is a mapped area of the field create by your mapper! so the side of the field DO NOT matter!
-            opponent_goal_point = self.mapper.get_attack_goal()
-            goal_region = self.mapper.get_region_from_point(opponent_goal_point.get_center())
-            my_region = self.mapper.get_region_from_point(inspector.get_me().position)
+            # # "point" is an X and Y raw coordinate referenced by the field, so the side of the field matters!
+            # # "region" is a mapped area of the field create by your mapper! so the side of the field DO NOT matter!
+            # opponent_goal_point = self.mapper.get_attack_goal()
+            # goal_region = self.mapper.get_region_from_point(opponent_goal_point.get_center())
+            # my_region = self.mapper.get_region_from_point(inspector.get_me().position)
+            #
+            # if self.is_near(my_region, goal_region):
+            #     my_order = inspector.make_order_kick_max_speed(opponent_goal_point.get_center())
+            # else:
+            #     my_order = inspector.make_order_move_max_speed(opponent_goal_point.get_center())
+            treiner = MyBotTrainer(self.number,None)
+            sts = treiner.get_training_state(inspector.get_snapshot())
+            # print(sts)
 
-            if self.is_near(my_region, goal_region):
-                my_order = inspector.make_order_kick_max_speed(opponent_goal_point.get_center())
-            else:
-                my_order = inspector.make_order_move_max_speed(opponent_goal_point.get_center())
 
-            return [my_order]
+            action, data = self.model_move.predict(sts, deterministic=True)
+            print(data)
+            orders = inspector.make_order_move_by_direction(action)
+            # return [my_order]
+            return [orders]
 
         except Exception as e:
             print(f'did not play this turn due to exception. {e}')
@@ -128,3 +163,19 @@ class MyBot(lugo4py.Bot, ABC):
         max_distance = 2
         return abs(region_origin.get_row() - dest_origin.get_row()) <= max_distance and abs(
             region_origin.get_col() - dest_origin.get_col()) <= max_distance
+
+    def am_i_closest(self, inspector: lugo4py.GameSnapshotInspector, point, num_closest) -> bool:
+        my_player = inspector.get_me()
+        my_dist = (my_player.position.x - point.x) ** 2 + (my_player.position.y - point.y) ** 2
+
+        closer_players_count = 0
+        for player in inspector.get_my_team_players():
+            if player.number == my_player.number or player.number == 1:
+                continue  # skip self
+            dist = (player.position.x - point.x) ** 2 + (player.position.y - point.y) ** 2
+            if dist < my_dist:
+                closer_players_count += 1
+                if closer_players_count >= num_closest:
+                    return False
+
+        return True
