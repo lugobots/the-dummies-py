@@ -29,11 +29,6 @@ class StubEnv(Env):
         reward, done = self.training_ctrl.update(action)
         self.state = self.training_ctrl.get_state()
         info = {}
-
-        reward = float(np.clip(reward, -10, 10))
-        # print(f"reward: {reward}")
-        if not np.isfinite(reward):
-            reward = 0.0
         return self.state, reward, done, info
 
     def render(self, mode='human'):

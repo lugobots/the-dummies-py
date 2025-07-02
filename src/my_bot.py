@@ -105,16 +105,12 @@ class MyBot(lugo4py.Bot, ABC):
             #     my_order = inspector.make_order_kick_max_speed(opponent_goal_point.get_center())
             # else:
             #     my_order = inspector.make_order_move_max_speed(opponent_goal_point.get_center())
-            treiner = MyBotTrainer(self.number,None)
-            sts = treiner.get_training_state(inspector.get_snapshot())
-            # print(sts)
+            trainer = MyBotTrainer(self.number,None)
+            sts = trainer.get_training_state(inspector.get_snapshot())
 
-
-            action, data = self.model_move.predict(sts, deterministic=True)
-            print(data)
-            orders = inspector.make_order_move_by_direction(action)
-            # return [my_order]
-            return [orders]
+            action, _ = self.model_move.predict(sts, deterministic=True)
+            my_order = inspector.make_order_move_by_direction(action)
+            return [my_order]
 
         except Exception as e:
             print(f'did not play this turn due to exception. {e}')

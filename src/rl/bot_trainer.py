@@ -7,6 +7,8 @@ import numpy as np
 from lugo4py import GameSnapshot, GameSnapshotInspector, Mapper, Point, PlayerProperties, GameProperties, Player, Remote, Team, specs, new_velocity, Velocity
 from lugo4py.rl import BotTrainer, PlayersOrders, TurnOutcome, PlayerOrdersOnRLSession
 
+MAX_STEPS_PER_EPISODE = 300
+
 class MyBotTrainer(BotTrainer):
     def __init__(self, bot_trainer_num, remote_control: Remote):
         self.bot_trainer_num = bot_trainer_num
@@ -38,7 +40,7 @@ class MyBotTrainer(BotTrainer):
         return response.game_snapshot
 
     def get_training_state(self, snapshot: GameSnapshot) -> Any:
-        inspector = GameSnapshotInspector(Team.Side.HOME, self.nuum, snapshot)
+        inspector = GameSnapshotInspector(Team.Side.HOME, self.bot_trainer_num, snapshot)
         me = inspector.get_me()
 
         sensors = scan_area(me.position, self.sensor_area_width, inspector.get_opponent_players(), self.sensor_area_granularity)
@@ -86,7 +88,10 @@ class MyBotTrainer(BotTrainer):
         if previous_goal_dist > new_goal_dist:
             reward += 1 - previous_goal_dist
 
-        return reward, new_inspector.get_turn() >= 300
+        if not np.isfinite(reward):
+            return 0, True
+
+        return reward, new_inspector.get_turn() >= MAX_STEPS_PER_EPISODE
 
 
     def _set_player_position(self, player_number: int, position: Point, side)  :
@@ -94,8 +99,6 @@ class MyBotTrainer(BotTrainer):
         prop.number = player_number
         prop.side = side
 
-        x = random.randint(specs.FIELD_WIDTH//2, specs.FIELD_WIDTH - specs.GOAL_ZONE_RANGE)
-        y = random.randint(0, specs.FIELD_HEIGHT)
         prop.position.x = position.x
         prop.position.y = position.y
         return self.remote_control.SetPlayerProperties(prop)
@@ -173,7 +176,7 @@ def compute_reward(scan_matrix):
                 dist = math.sqrt(dx**2 + dy**2)
 
                 # Avoid division by zero
-                if dist == 0:
+                if dist < specs.PLAYER_SIZE:
                     return -float('inf')  # player on top of agent
                 reward -= 1 / dist  # the closer the player, the worse
 

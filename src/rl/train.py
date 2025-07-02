@@ -13,7 +13,7 @@ from lugo4py.rl import ThreadPoolExecutor, Gym
 from .bot_trainer import MyBotTrainer
 
 grpc_address = "localhost:5000"
-normal_speed = False
+slow_speed = False
 
 stop = threading.Event()
 
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     #     conf.get_initial_position(),
     #     conf.get_mapper()
     # ))
-    #
+
     # gym.create_team_bots(TeamSide.AWAY, lambda conf: MyBot(
     #     conf.get_bot_team_side(),
     #     conf.get_bot_number(),
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     #     conf.get_mapper()
     # ))
 
-    gym.start(bot, my_training_function, normal_speed)
+    gym.start(bot, my_training_function, slow_speed)
 
     def signal_handler(_, __):
         print("Stop requested\n")
