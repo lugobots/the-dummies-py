@@ -176,7 +176,7 @@ def compute_reward(scan_matrix):
                 dist = math.sqrt(dx**2 + dy**2)
 
                 # Avoid division by zero
-                if dist < specs.PLAYER_SIZE:
+                if dist < 0.5:
                     return -float('inf')  # player on top of agent
                 reward -= 1 / dist  # the closer the player, the worse
 

@@ -6,7 +6,7 @@ from .bot_trainer import MAX_STEPS_PER_EPISODE
 from .env import StubEnv
 from lugo4py.rl import TrainingController
 
-episodes = 5_000
+episodes = 1_000
 
 def my_training_function(training_ctrl: TrainingController) -> None:
     print("Let's train")
