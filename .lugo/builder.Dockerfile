@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM python:3.9-slim-bookworm
 
 # Installing NodeJS to we can use Nodemon instead of watchdog (Whatchdos does not work weel on containers on Windows)
 ENV NODE_VERSION=16.13.0
