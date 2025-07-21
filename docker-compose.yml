@@ -6,12 +6,12 @@ version: '3.9'
 services:
   game_server:
     image: lugobots/server:${SERVER_VERSION:-latest}
-    command: play --dev-mode --listening-duration=${LISTENING_DURATION:-50ms} --timer-mode=${TIMER_MODE:-wait}
+    command: play --dev-mode --listening-duration=${LISTENING_DURATION:-50ms} --grpc-port=${GAME_GRPC_PORT:-5000} --timer-mode=${TIMER_MODE:-wait}
     ports:
+      - "${GAME_GRPC_PORT:-5000}:${GAME_GRPC_PORT:-5000}"
       - "8080:8080"
-      - "5000:5000"
     healthcheck:
-      test: [ "CMD", "grpc-health-probe", "-addr=game_server:5000" ]
+      test: [ "CMD", "grpc-health-probe", "-addr=game_server:${GAME_GRPC_PORT:-5000}" ]
       interval: 300ms
       timeout: 5s
       retries: 100
@@ -45,7 +45,7 @@ services:
     environment:
       - BOT_NUMBER=1
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_02:
     image: bot_watcher
@@ -61,7 +61,7 @@ services:
     environment:
       - BOT_NUMBER=2
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_home_03:
     image: bot_watcher
     command: ["nodemon", "-L", "--config", ".lugo/nodemon.json"]
@@ -76,7 +76,7 @@ services:
     environment:
       - BOT_NUMBER=3
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_04:
     image: bot_watcher
@@ -92,7 +92,7 @@ services:
     environment:
       - BOT_NUMBER=4
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_05:
     image: bot_watcher
@@ -108,7 +108,7 @@ services:
     environment:
       - BOT_NUMBER=5
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_06:
     image: bot_watcher
@@ -124,7 +124,7 @@ services:
     environment:
       - BOT_NUMBER=6
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_07:
     image: bot_watcher
@@ -140,7 +140,7 @@ services:
     environment:
       - BOT_NUMBER=7
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_08:
     image: bot_watcher
@@ -156,7 +156,7 @@ services:
     environment:
       - BOT_NUMBER=8
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_09:
     image: bot_watcher
@@ -172,7 +172,7 @@ services:
     environment:
       - BOT_NUMBER=9
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_10:
     image: bot_watcher
@@ -188,7 +188,7 @@ services:
     environment:
       - BOT_NUMBER=10
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_home_11:
     image: bot_watcher
@@ -204,7 +204,7 @@ services:
     environment:
       - BOT_NUMBER=11
       - BOT_TEAM=${PLAYER_SIDE:-home}
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_away_01:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
@@ -217,7 +217,7 @@ services:
       - BOT_NUMBER=1
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_away_02:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
@@ -230,7 +230,7 @@ services:
       - BOT_NUMBER=2
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
   player_away_03:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
@@ -243,7 +243,7 @@ services:
       - BOT_NUMBER=3
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_04:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -255,7 +255,7 @@ services:
       - BOT_NUMBER=4
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_05:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -267,7 +267,7 @@ services:
       - BOT_NUMBER=5
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_06:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -279,7 +279,7 @@ services:
       - BOT_NUMBER=6
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_07:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -291,7 +291,7 @@ services:
       - BOT_NUMBER=7
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_08:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -303,7 +303,7 @@ services:
       - BOT_NUMBER=8
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_09:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -315,7 +315,7 @@ services:
       - BOT_NUMBER=9
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_10:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -327,7 +327,7 @@ services:
       - BOT_NUMBER=10
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
   player_away_11:
     image: ${AWAY_BOT:-lugobots/level-1:latest}
     depends_on:
@@ -339,5 +339,5 @@ services:
       - BOT_NUMBER=11
       - BOT_TEAM=${OPPONENT_SIDE:-away}
       - MODE=${MODE:-default} # default zombies statues kids defenses
-      - BOT_GRPC_URL=game_server:5000
+      - BOT_GRPC_URL=game_server:${GAME_GRPC_PORT:-5000}
 
