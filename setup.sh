@@ -40,7 +40,7 @@ if [[ "$RESP" =~ ^[sS] ]]; then
   echo "Fazendo pull das imagens Docker necessárias..."
   docker pull lugobots/server
   docker pull lugobots/the-dummies-go:latest
-  docker pull python:3.9-slim-buster
+  docker pull python:3.9-slim-bookworm
   echo "Pull concluído."
 else
   echo "Pulando pull das imagens Docker."

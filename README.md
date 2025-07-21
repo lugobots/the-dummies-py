@@ -79,7 +79,7 @@ You may use the [SetupEnvPy](https://hub.docker.com/r/lugobots/setup-env-py) Doc
    ```shell
    docker pull lugobots/server
    docker pull lugobots/the-dummies-go:latest
-   docker pull python:3.9-slim-buster
+   docker pull python:3.9-slim-bookworm
    ```
 2. Run the builder service that will install the depencencies you need (**wait for the service to finish**):
    ```sell 

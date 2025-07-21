@@ -25,7 +25,7 @@ if ($resp -match "^[sS]") {
     Write-Host "Fazendo pull das imagens Docker necessarias..."
     docker pull lugobots/server
     docker pull lugobots/the-dummies-go:latest
-    docker pull python:3.9-slim-buster
+    docker pull python:3.9-slim-bookworm
     Write-Host "Pull concluido."
 } else {
     Write-Host "Pulando pull das imagens Docker."
